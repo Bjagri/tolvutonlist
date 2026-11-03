@@ -312,6 +312,64 @@ details.dm-save summary{cursor:pointer;font-weight:600}
 #taktvel-tool{margin-block:6px}
 
 @media (max-width:560px){nav.links{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;max-width:100%}nav.links::-webkit-scrollbar{display:none}nav.links a{padding:7px 11px;font-size:.88rem;white-space:nowrap}}
+/* ---- forsíða (craft-innblásin) ---- */
+.hero h1{font-size:clamp(2.2rem,5.6vw,4rem);line-height:1.04;letter-spacing:-.02em}
+.hero{position:relative}
+.view[data-view="forsida"]{overflow-x:clip}
+.hero::before{content:"";position:absolute;z-index:-1;inset:-60px -10vw auto auto;width:520px;height:420px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent) 16%,transparent),transparent);filter:blur(10px);pointer-events:none}
+.hero-live{display:flex;flex-direction:column;gap:12px;box-shadow:0 20px 50px -20px color-mix(in srgb,var(--accent) 45%,transparent),0 2px 0 var(--line)}
+.hl-top{display:flex;align-items:center;gap:12px}
+.hl-play{width:52px;height:52px;border-radius:50%;border:none;background:var(--accent);cursor:pointer;display:grid;place-items:center;box-shadow:0 4px 0 var(--deep);flex:none;transition:transform .12s}
+.hl-play:active{transform:translateY(2px);box-shadow:0 2px 0 var(--deep)}
+.hl-play span{width:0;height:0;border-left:16px solid #fff;border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:4px}
+.hl-play.on span{width:14px;height:16px;border:none;margin:0;background:linear-gradient(90deg,#fff 0 35%,transparent 35% 65%,#fff 65%)}
+.hl-styles{display:flex;gap:4px;background:var(--tint);border-radius:999px;padding:4px;flex-wrap:wrap}
+.hl-styles button{font:inherit;font-size:.88rem;border:none;background:none;border-radius:999px;padding:6px 12px;cursor:pointer;color:var(--muted)}
+.hl-styles button.on{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 1px 0 var(--line)}
+.hero-live .mini button{aspect-ratio:1;border:none;padding:0;border-radius:6px;background:var(--tint);cursor:pointer;transition:transform .1s,background .15s}
+.hero-live .mini button.beat:not(.k):not(.s):not(.h){background:color-mix(in srgb,var(--tint) 60%,var(--line))}
+.hero-live .mini button.k{background:var(--kick)}.hero-live .mini button.s{background:var(--snare)}.hero-live .mini button.h{background:var(--hat)}
+.hero-live .mini button.now{transform:scale(1.15);box-shadow:0 0 0 2px var(--ink)}
+.hero-live figcaption b{font-weight:600}.hero-live figcaption b.k{color:var(--kick)}.hero-live figcaption b.s{color:var(--snare)}.hero-live figcaption b.h{color:var(--good)}
+.topic-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:900px;margin:-8px auto 0}
+.topic-chips a{display:inline-flex;align-items:center;gap:8px;padding:8px 14px 8px 10px;border-radius:999px;background:var(--surface);box-shadow:0 2px 0 var(--line);text-decoration:none;color:var(--ink);font-weight:500;font-size:.95rem;transition:transform .15s,box-shadow .15s}
+.topic-chips a i{width:22px;height:22px;border-radius:7px;background:var(--c);display:block}
+.topic-chips a:hover{transform:translateY(-2px);box-shadow:0 4px 0 color-mix(in srgb,var(--c) 40%,var(--line))}
+.phase-stack{display:flex;flex-direction:column;gap:28px;padding-bottom:20px}
+.phase-card{--c:var(--accent);position:relative;border-radius:40px;padding:32px 34px;background:linear-gradient(160deg,color-mix(in srgb,var(--c) 20%,var(--surface)),color-mix(in srgb,var(--c) 8%,var(--surface)));box-shadow:0 -6px 30px -14px rgba(0,0,0,.18),0 2px 0 var(--line);display:flex;flex-direction:column;gap:22px;overflow:hidden}
+.phase-card::after{content:"";position:absolute;right:-80px;bottom:-120px;width:320px;height:320px;border-radius:44% 56% 61% 39%/42% 44% 56% 58%;background:color-mix(in srgb,var(--c) 22%,transparent);pointer-events:none}
+@media (min-width:761px){.phase-card{position:sticky;top:calc(env(safe-area-inset-top,0px) + 84px + var(--i)*22px);min-height:min(380px,62vh)}}
+.pc-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:start;position:relative;z-index:1}
+.pc-head h3{font-size:clamp(1.8rem,4vw,2.6rem);margin:4px 0 6px;letter-spacing:-.01em}
+.pc-txt{margin:0;color:var(--muted);max-width:30rem;font-size:1.05rem}
+.pc-art{width:210px;color:var(--ink)}.pc-art svg{width:100%;height:auto;display:block}
+.pc-units{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;position:relative;z-index:1}
+.pc-unit{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:22px;background:var(--surface);box-shadow:0 2px 0 var(--line);text-decoration:none;color:var(--ink);transition:transform .15s,box-shadow .15s}
+.pc-unit:hover{transform:translateY(-2px);box-shadow:0 5px 0 color-mix(in srgb,var(--c) 45%,var(--line))}
+.pc-unit .num{width:40px;height:40px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--c);color:#fff;font-family:var(--f-display);font-weight:700;font-size:1.15rem}
+.pc-t{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}.pc-t b{font-size:1.02rem}.pc-t small{color:var(--muted);font-size:.86rem;line-height:1.35}
+.pc-go{color:var(--muted);font-size:1.2rem;transition:transform .15s}.pc-unit:hover .pc-go{transform:translateX(3px);color:var(--ink)}
+@media (max-width:760px){.phase-card{padding:24px 20px;border-radius:30px}.pc-head{grid-template-columns:1fr}.pc-art{width:150px;order:-1}}
+/* ---- hreyfing ---- */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.stoc.rv{transform:none}
+.view.enter{animation:viewIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes viewIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.scroll-prog{position:fixed;top:0;left:0;right:0;height:4px;z-index:60;pointer-events:none}
+.scroll-prog i{display:block;height:100%;background:linear-gradient(90deg,var(--tone),var(--snare),var(--accent));transform-origin:0 50%;transform:scaleX(0)}
+.stoc-prog{display:inline-flex;align-items:center;gap:8px;margin-left:auto;padding:6px 12px;border-radius:999px;background:var(--surface);box-shadow:0 2px 0 var(--line);font-size:.85rem;white-space:nowrap;color:var(--muted)}
+.stoc-prog i{width:42px;height:6px;border-radius:3px;background:var(--tint);position:relative;overflow:hidden}
+.stoc-prog i::after{content:"";position:absolute;inset:0;background:var(--good);transform-origin:0 50%;transform:scaleX(var(--p));transition:transform .4s}
+.stoc-prog.full{background:var(--good);color:#fff}.stoc-prog.full i{display:none}
+ol.steps>li.pop{animation:stepPop .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes stepPop{0%{transform:scale(1)}40%{transform:scale(1.018)}100%{transform:scale(1)}}
+.confetti{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:80}
+.celebrate{position:fixed;left:50%;bottom:24px;z-index:81;display:flex;gap:14px;align-items:center;flex-wrap:wrap;max-width:min(560px,calc(100vw - 32px));background:var(--surface);border-radius:24px;padding:16px 18px;box-shadow:0 10px 40px rgba(0,0,0,.18),0 0 0 2px var(--accent-soft);transform:translate(-50%,140%);transition:transform .45s cubic-bezier(.2,.9,.3,1.2)}
+.celebrate.show{transform:translate(-50%,0)}
+.celebrate>div:nth-child(2){flex:1;min-width:200px}.celebrate p{margin:2px 0 0;font-size:.92rem;color:var(--muted)}.celebrate b{font-size:1.1rem}
+.cel-num{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font-family:var(--f-display);font-weight:700;font-size:1.4rem;flex:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.view.enter{animation:none}.celebrate{transition:none}ol.steps>li.pop{animation:none}}
 /* ---- fleiri tól ---- */
 @media (max-width:640px){ol.steps>li .tool{margin-left:-52px;margin-right:-8px}.tool{padding:14px}.sy-key{height:90px}}
 .tool .row{gap:8px}
@@ -504,6 +562,7 @@ input[type=number]{font:inherit;padding:8px 12px;border-radius:14px;border:none;
 
 </style>
 
+<div id="scrollProg" class="scroll-prog" hidden aria-hidden="true"><i></i></div>
 <header class="top">
   <div class="wrap">
     <a class="brand" href="#forsida">
@@ -514,7 +573,7 @@ input[type=number]{font:inherit;padding:8px 12px;border-radius:14px;border:none;
       <a href="#forsida" data-nav="forsida">Áfanginn</a>
       <a href="#lotur" data-nav="lotur">Loturnar</a>
       <a href="#glosubok" data-nav="glosubok">Glósubókin</a>
-      <a href="#skil" data-nav="skil">Skilin mín</a>
+      <a href="#skil" data-nav="skil">Verkefnin mín</a>
     </nav>
   </div>
 </header>
@@ -527,17 +586,19 @@ input[type=number]{font:inherit;padding:8px 12px;border-radius:14px;border:none;
     <div>
       <p class="eyebrow">Tónlistarsmiðjan · fjarnám · unglingastig · 10 lotur</p>
       <h1>Búðu til tónlist með því sem er nú þegar í vafranum þínum</h1>
-      <p class="lead">Engin forrit til að sækja, ekkert að kaupa og enginn aðgangur. Í hverri lotu lærir þú eitt atriði úr raftónlist og býrð til lítið verk sem sýnir það.</p>
       <div class="row" style="margin-top:22px">
         <a class="btn primary" href="#lota-1">Byrja á lotu 1</a>
         <a class="btn" href="#lota-2">Prófa taktvélina</a>
       </div>
     </div>
-    <figure class="hero-grid" style="margin:0">
-      <div class="mini" id="heroMini" aria-hidden="true"></div>
-      <figcaption>Einn taktur í 16 reitum: bassatromma, snerill og hi-hat. Svona lítur nær öll raftónlist út undir húddinu.</figcaption>
+    <figure class="hero-grid hero-live" style="margin:0">
+      <div class="hl-top"><button type="button" class="hl-play" aria-pressed="false" aria-label="Spila taktinn"><span></span></button>
+        <div class="hl-styles" role="group" aria-label="Stíll"><button type="button" data-s="rokk" class="on">Rokk</button><button type="button" data-s="house">House</button><button type="button" data-s="hiphop">Hip hop</button></div></div>
+      <div class="mini" id="heroMini"></div>
+      <figcaption>Smelltu á ▶ og svo á reitina. Einn taktur í 16 reitum: <b class="k">bassatromma</b>, <b class="s">snerill</b> og <b class="h">hi-hat</b>.</figcaption>
     </figure>
   </div>
+  <nav class="topic-chips" aria-label="Það sem þú lærir" id="topicChips"></nav>
 
   <section class="read stack">
     <h2>Svona virkar hver lota</h2>
@@ -558,9 +619,10 @@ input[type=number]{font:inherit;padding:8px 12px;border-radius:14px;border:none;
     <p>Hafðu allt á sama stað, til dæmis í stílabók eða í einu skjali. Byrjaðu hverja lotu á nýrri síðu með dagsetningu og nafni lotunnar.</p>
   </section>
 
-  <section class="stack" id="units-wrap">
+  <section class="stack" id="units">
     <h2>Loturnar</h2>
-    <div class="units" id="units"></div>
+    <p class="read muted">Tíu lotur í fjórum hlutum. Hver hluti byggir á þeim á undan.</p>
+    <div class="phase-stack" id="phaseStack"></div>
   </section>
 
   <section class="stack">
@@ -641,8 +703,8 @@ input[type=number]{font:inherit;padding:8px 12px;border-radius:14px;border:none;
 </section>
 <section class="view stack-lg" data-view="skil" hidden>
   <div class="lesson-head read">
-    <p class="eyebrow">Þín skil</p>
-    <h1>Skilin mín</h1>
+    <p class="eyebrow">Þín verkefni</p>
+    <h1>Verkefnin mín</h1>
     <p class="lead2">Hér sérðu hvaða lotum þú hefur skilað, stöðuna á þeim og endurgjöf frá kennaranum.</p>
   </div>
   <div id="minskil" class="stack"></div>
@@ -674,7 +736,7 @@ const store={get(k,d){try{const v=localStorage.getItem('tiv:'+k);return v===null
 
 /* ---------- gögn ---------- */
 const LOTUR=JSON.parse(document.getElementById('lotur-data').textContent);
-const PHASE=n=>n<=4?'Efniviðurinn':n<=6?'Hljóðið':n===7?'Formið':'Framleiðslan';
+const PHASE=n=>n<=4?'Undirstöðuatriði':n<=6?'Hljóðið':n===7?'Formið':'Framleiðslan';
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function parseLota(md,n){
   const lines=md.split('\n');
@@ -709,18 +771,32 @@ function route(){
   if(view==='skil')renderMinSkil();
   if(view==='kennari')renderKennari();
   gbRoute(view,lota);
+  if(typeof motionRoute==='function')motionRoute(view);
   if(scrollTo){const el=document.getElementById(scrollTo);if(el)el.scrollIntoView()}else window.scrollTo(0,0);
   if(lota!==2&&typeof stop==='function'&&playing)stop();
-  if(!lota&&typeof gridStop==='function')gridStop();
+  if(view!=='forsida'&&typeof gridStop==='function'&&gridCur&&gridCur.btn&&gridCur.btn.classList.contains('hl-play'))gridStop();
+  if(!lota&&view!=='forsida'&&typeof gridStop==='function')gridStop();
 }
 window.addEventListener('hashchange',route);
 
 /* ---------- forsíða ---------- */
-(function(){let last='';let html='';
-  DATA.forEach(d=>{const ph=PHASE(d.n);if(ph!==last){html+=`<div class="phase">${ph}</div>`;last=ph}
-    const forrit=metaVal(d,'hvaða forrit');const inn=metaVal(d,'inngangur');
-    html+=`<a class="unit unit-link" href="#lota-${d.n}"><span class="num">${d.n}</span><div><h3>${esc(d.short)}</h3><p>${esc(inn)}</p><p class="tools-line">${esc(forrit)}</p></div><span class="pill go">Opna</span></a>`});
-  $('#units').innerHTML=html;
+const PHASES=[
+ {name:'Undirstöðuatriði',c:'--kick',from:1,to:4,txt:'Taktur, hljómar og laglína. Grunnurinn sem allt annað byggir á.',art:'grid'},
+ {name:'Hljóðið',c:'--hat',from:5,to:6,txt:'Búðu til þín eigin hljóð, með hljóðgervli og upptökum úr umhverfinu.',art:'wave'},
+ {name:'Formið',c:'--open',from:7,to:7,txt:'Raðaðu hugmyndunum í heilt lag með upphafi, hápunkti og endi.',art:'form'},
+ {name:'Framleiðslan',c:'--snare',from:8,to:10,txt:'Effectar, blöndun og frágangur. Lagið verður tilbúið til að deila.',art:'mix'}];
+const ART={
+ grid:()=>{let r='';const on=[[0,0],[0,4],[1,2],[1,6],[2,0],[2,2],[2,4],[2,6],[0,7],[1,7]];for(let y=0;y<3;y++)for(let x=0;x<8;x++){const a=on.some(([yy,xx])=>yy===y&&xx===x);r+=`<rect x="${x*26}" y="${y*26}" width="22" height="22" rx="6" fill="${a?['var(--kick)','var(--snare)','var(--hat)'][y]:'currentColor'}" opacity="${a?1:.14}"/>`}return `<svg viewBox="0 0 206 74">${r}</svg>`},
+ wave:()=>`<svg viewBox="0 0 206 74"><path d="M0 37 C 17 0, 34 0, 51 37 S 85 74, 103 37 S 137 0, 154 37 S 188 74, 206 37" fill="none" stroke="var(--hat)" stroke-width="6" stroke-linecap="round"/><path d="M0 37 L25 12 L25 62 L51 12 L51 62 L77 12 L77 62 L103 37" fill="none" stroke="currentColor" stroke-width="3" opacity=".25" stroke-linejoin="round"/></svg>`,
+ form:()=>{const h=[1,2,3,5,2,5,1];return `<svg viewBox="0 0 206 74">${h.map((v,i)=>`<rect x="${i*30}" y="${74-v*13}" width="26" height="${v*13}" rx="6" fill="var(--open)" opacity="${.35+v*.13}"/>`).join('')}<polyline points="${h.map((v,i)=>`${i*30+13},${70-v*13}`).join(' ')}" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" opacity=".6"/></svg>`},
+ mix:()=>{const v=[.7,.45,.8,.35,.6];return `<svg viewBox="0 0 206 74">${v.map((y,i)=>`<rect x="${i*42+18}" y="4" width="4" height="66" rx="2" fill="currentColor" opacity=".18"/><rect x="${i*42+6}" y="${4+(1-y)*56}" width="28" height="12" rx="6" fill="var(--snare)"/>`).join('')}</svg>`}};
+(function(){
+  $('#phaseStack').innerHTML=PHASES.map((ph,i)=>`<article class="phase-card" style="--c:var(${ph.c});--i:${i}">
+    <div class="pc-head"><div><p class="eyebrow">Hluti ${i+1} af ${PHASES.length} · ${ph.from===ph.to?`Lota ${ph.from}`:`Lotur ${ph.from}–${ph.to}`}</p><h3>${ph.name}</h3><p class="pc-txt">${ph.txt}</p></div><div class="pc-art" aria-hidden="true">${ART[ph.art]()}</div></div>
+    <div class="pc-units">${DATA.filter(d=>d.n>=ph.from&&d.n<=ph.to).map(d=>`<a class="pc-unit" href="#lota-${d.n}"><span class="num">${d.n}</span><span class="pc-t"><b>${esc(d.short)}</b><small>${esc(metaVal(d,'inngangur'))}</small></span><span class="pc-go" aria-hidden="true">→</span></a>`).join('')}</div>
+  </article>`).join('');
+  const TOPICS=[['Púls og BPM',1,'--kick'],['Trommutaktar',2,'--snare'],['Hljómar og bassi',3,'--kick'],['Laglína og hook',4,'--hat'],['Hljóðgervlar',5,'--hat'],['Umhverfishljóð',6,'--amb'],['Form',7,'--open'],['Effectar',8,'--snare'],['Hljóðblöndun',9,'--perc'],['Frágangur',10,'--accent']];
+  $('#topicChips').innerHTML=TOPICS.map(([t,n,c])=>`<a href="#lota-${n}" style="--c:var(${c})"><i></i>${t}</a>`).join('');
 })();
 
 const TOOLS=[
@@ -750,10 +826,22 @@ const toolCard=([n,u,w])=>`<a class="toolcard" href="${u}"${u.startsWith('#')?''
 $('#toolRows').innerHTML=TOOLS.map(toolCard).join('');
 $('#toolExtra').innerHTML=EXTRA.map(toolCard).join('');
 
-/* hero mini grid: rokk/popp */
-(function(){const k=[1,9,11],s=[5,13],h=[1,3,5,7,9,11,13,15];let html='';
- [['k',k],['s',s],['h',h]].forEach(([c,a])=>{for(let i=1;i<=16;i++)html+=`<span class="${a.includes(i)?c:''}"></span>`});$('#heroMini').innerHTML=html})();
-
+/* lifandi taktur á forsíðu */
+(function(){
+  const ST={rokk:{bpm:104,k:[0,8,10],s:[4,12],h:[0,2,4,6,8,10,12,14]},house:{bpm:122,k:[0,4,8,12],s:[4,12],h:[2,6,10,14]},hiphop:{bpm:90,k:[0,7,10],s:[4,12],h:[0,2,4,6,8,10,12,14,15]}};
+  let cur='rokk',pat=null;const el=$('#heroMini'),btn=$('.hl-play');
+  const load=n=>{cur=n;const d=ST[n];pat={k:new Set(d.k),s:new Set(d.s),h:new Set(d.h)};draw();$$('.hl-styles button').forEach(b=>b.classList.toggle('on',b.dataset.s===n))};
+  const draw=()=>{el.innerHTML=['k','s','h'].map(r=>Array.from({length:16},(_,i)=>`<button type="button" data-r="${r}" data-i="${i}" class="${pat[r].has(i)?r:''}${i%4===0?' beat':''}" aria-label="${{k:'Bassatromma',s:'Snerill',h:'Hi-hat'}[r]}, reitur ${i+1}" aria-pressed="${pat[r].has(i)}"></button>`).join('')).join('')};
+  load('rokk');
+  el.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const r=b.dataset.r,i=+b.dataset.i;if(pat[r].has(i))pat[r].delete(i);else{pat[r].add(i);ensureCtx();hit({k:'kick',s:'snare',h:'hat'}[r],ctx.currentTime,.7)}draw()});
+  $$('.hl-styles button').forEach(b=>b.addEventListener('click',()=>{load(b.dataset.s);if(gridCur&&gridCur.btn===btn){gridStop();btn.click()}}));
+  btn.addEventListener('click',()=>{if(gridCur&&gridCur.btn===btn){gridStop();return}ensureCtx();gridStop();
+    let i=0,next=ctx.currentTime+.06;const q=[],step=()=>60/ST[cur].bpm/4;
+    const tick=()=>{while(next<ctx.currentTime+.12){const s=i%16;if(pat.k.has(s))hit('kick',next,.9);if(pat.s.has(s))hit('snare',next,.8);if(pat.h.has(s))hit('hat',next,.6);q.push([next,s]);i++;next+=step()}
+      while(q.length&&q[0][0]<=ctx.currentTime){const [,s]=q.shift();el.querySelectorAll('.now').forEach(x=>x.classList.remove('now'));el.querySelectorAll(`[data-i="${s}"]`).forEach(x=>x.classList.add('now'))}};
+    const tm=setInterval(tick,25);tick();btn.classList.add('on');btn.setAttribute('aria-pressed','true');
+    gridCur={btn,stop(){clearInterval(tm);btn.classList.remove('on');btn.setAttribute('aria-pressed','false');el.querySelectorAll('.now').forEach(x=>x.classList.remove('now'))}}});
+})();
 /* ---------- hjálparföll ---------- */
 async function copyText(text,toastEl,fallbackEl){
   try{await navigator.clipboard.writeText(text);toastEl.textContent='Afritað'}
@@ -903,6 +991,7 @@ function renderLesson(n){
   const ul=host.querySelector('.goalsmd ul');if(ul)ul.classList.add('goals');
   parts.forEach((s,i)=>{const r=host.querySelector(`[data-sec="${i}"]`);decorate(r,d,s)});
   host.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{const el=document.getElementById(b.dataset.go);if(el)el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})}));
+  if(typeof motionLesson==='function')motionLesson(n);
   if(window.IntersectionObserver){if(renderLesson.io)renderLesson.io.disconnect();
     const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){host.querySelectorAll('.stoc button').forEach(b=>b.classList.toggle('on',b.dataset.go===e.target.id))}})},{rootMargin:'-40% 0px -55% 0px'});
     host.querySelectorAll('.band').forEach(b=>io.observe(b));renderLesson.io=io}
@@ -1076,19 +1165,19 @@ function playGrid(host,o){
     const total=seq.length;
     const tick=()=>{while(next<ctx.currentTime+.12){const s=seq[i%total];const t=next;
         if(s.drum!=null){const c=s.drum;if(o.kind==='drum'||w.querySelector('.pg-chk input')?.checked){
-          if(o.kind==='drum'){o.rows.forEach((_,ri)=>{if(s.set.has(ri+','+c))hit(ri===o.rows.length-1?'kick':'snare',t,.75)})}
+          if(o.kind==='drum'){o.rows.forEach((_,ri)=>{if(s.set().has(ri+','+c))hit(ri===o.rows.length-1?'kick':'snare',t,.75)})}
           else{if(c%4===0)hit('kick',t,.55);if(c%4===2)hit('snare',t,.4)}}}
-        if(o.kind==='mel')o.rows.forEach((n,ri)=>{if(s.set.has(ri+','+s.col))marimba(NOTE_HZ[n],t)});
+        if(o.kind==='mel')o.rows.forEach((n,ri)=>{if(s.set().has(ri+','+s.col))marimba(NOTE_HZ[n],t)});
         vis.push([t,s.col,s.own]);i++;next+=step}
       while(vis.length&&vis[0][0]<=ctx.currentTime){const [,c,own]=vis.shift();g.querySelectorAll('.now').forEach(x=>x.classList.remove('now'));if(own)g.querySelectorAll(`[data-c="${c}"]`).forEach(x=>x.classList.add('now'))}};
     timer=setInterval(tick,25);tick();
     gridCur={stop(){clearInterval(timer);g.querySelectorAll('.now').forEach(x=>x.classList.remove('now'));playBtn.textContent='▶ Spila';playBtn.setAttribute('aria-pressed','false');if(bothBtn)bothBtn.textContent='▶ Spurning + svar'}};
   };
-  const ownSeq=()=>Array.from({length:o.cols},(_,c)=>({col:c,drum:o.kind==='drum'?c:c%8,set:on,own:true}));
+  const ownSeq=()=>Array.from({length:o.cols},(_,c)=>({col:c,drum:o.kind==='drum'?c:c%8,set:()=>on,own:true}));
   playBtn.addEventListener('click',()=>{if(gridCur&&gridCur.btn===playBtn){gridStop();return}start(ownSeq());gridCur.btn=playBtn;playBtn.textContent='■ Stöðva';playBtn.setAttribute('aria-pressed','true')});
   if(bothBtn)bothBtn.addEventListener('click',()=>{if(gridCur&&gridCur.btn===bothBtn){gridStop();return}
     const q=new Set(o.both.map(([r,c])=>r+','+c));
-    start([...Array.from({length:o.cols},(_,c)=>({col:c,drum:c%8,set:q,own:false})),...ownSeq()]);gridCur.btn=bothBtn;bothBtn.textContent='■ Stöðva'});
+    start([...Array.from({length:o.cols},(_,c)=>({col:c,drum:c%8,set:()=>q,own:false})),...ownSeq()]);gridCur.btn=bothBtn;bothBtn.textContent='■ Stöðva'});
 }
 
 /* ---------- fleiri gagnvirk dæmi (lotur 3–10) ---------- */
@@ -1435,6 +1524,56 @@ $('#gbClear').addEventListener('click',()=>{$('#gbConfirm').hidden=false});
 $('#gbNo').addEventListener('click',()=>{$('#gbConfirm').hidden=true});
 $('#gbYes').addEventListener('click',()=>{DATA.forEach(d=>store.set(gbKey(d.n),''));$('#gbConfirm').hidden=true;gbRenderList();$('#gbToast').textContent='Glósunum var eytt.';setTimeout(()=>$('#gbToast').textContent='',3000)});
 
+/* ---------- hreyfing: kaflar birtast, framvinda, síðuskipti, fögnun ---------- */
+const REDUCED=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+let revealIO=null;
+function reveal(root){
+  const els=[...root.querySelectorAll('.lhero,.stoc,.glosa,.band,.lfoot,.unit,.toolcard,.topic-chips,.pc-unit,.ms-item,.kcard,.hero,.recipe>*,#forsida-glosa,section.stack>h2')];
+  if(REDUCED()||!window.IntersectionObserver){els.forEach(e=>e.classList.remove('rv'));return}
+  if(!revealIO)revealIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');revealIO.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px',threshold:.04});
+  let k=0;els.forEach(e=>{if(e.classList.contains('in'))return;e.classList.add('rv');const r=e.getBoundingClientRect();
+    if(r.top<innerHeight){e.style.transitionDelay=Math.min(k++,6)*60+'ms'}else e.style.transitionDelay='';revealIO.observe(e)});
+}
+function motionRoute(view){
+  const v=document.querySelector(`.view[data-view="${view}"]`);
+  if(v&&!REDUCED()){v.classList.remove('enter');void v.offsetWidth;v.classList.add('enter')}
+  if(v)requestAnimationFrame(()=>reveal(v));
+  $('#scrollProg').hidden=view!=='lota';scrollProg();
+}
+function scrollProg(){const bar=$('#scrollProg');if(bar.hidden)return;const h=document.documentElement,max=h.scrollHeight-innerHeight;bar.firstElementChild.style.transform=`scaleX(${max>0?Math.min(1,scrollY/max):0})`}
+addEventListener('scroll',scrollProg,{passive:true});addEventListener('resize',scrollProg);
+
+/* skref-teljari í kaflastikunni + fögnun þegar öll skref eru búin */
+function motionLesson(n){
+  const host=$('#lesson'),boxes=()=>[...host.querySelectorAll('.step-done input')];
+  const stoc=host.querySelector('.stoc');if(!stoc||!boxes().length)return;
+  const chip=document.createElement('span');chip.className='stoc-prog';chip.setAttribute('aria-live','polite');stoc.appendChild(chip);
+  const count=()=>{const b=boxes(),d=b.filter(x=>x.checked).length;chip.innerHTML=`<i style="--p:${d/b.length}"></i>${d===b.length?'✓ Allt búið':`${d} af ${b.length} skrefum`}`;chip.classList.toggle('full',d===b.length);return d===b.length};
+  let was=count();
+  host.addEventListener('change',e=>{if(!e.target.closest('.step-done'))return;const now=count();
+    if(e.target.checked&&!REDUCED()){const li=e.target.closest('li');li.classList.remove('pop');void li.offsetWidth;li.classList.add('pop')}
+    if(now&&!was)celebrate(n);was=now});
+}
+function celebrate(n){
+  try{ensureCtx();const t=ctx.currentTime+.02;[72,76,79,84].forEach((m,i)=>tone(mtof(m),t+i*.09,.5,{vol:.12,type:'triangle'}))}catch(e){}
+  if(!REDUCED()){
+    const cv=document.createElement('canvas');cv.className='confetti';cv.setAttribute('aria-hidden','true');document.body.appendChild(cv);
+    const dpr=Math.min(2,devicePixelRatio||1),W=innerWidth,H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;const c=cv.getContext('2d');c.scale(dpr,dpr);
+    const cols=['--kick','--snare','--hat','--open','--perc','--accent'].map(cssVar),glyph=['♪','♫','♩','●','■','▲'];
+    const P=Array.from({length:110},()=>{const a=-Math.PI/2+(Math.random()-.5)*1.9,sp=7+Math.random()*9;return{x:W/2+(Math.random()-.5)*W*.3,y:H*.9,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,r:Math.random()*6,vr:(Math.random()-.5)*.3,s:14+Math.random()*16,c:cols[Math.random()*cols.length|0],g:glyph[Math.random()*glyph.length|0]}});
+    const t0=performance.now();const f=now=>{const el=now-t0;c.clearRect(0,0,W,H);c.globalAlpha=Math.max(0,1-Math.max(0,el-1700)/700);
+      P.forEach(p=>{p.vy+=.25;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;c.save();c.translate(p.x,p.y);c.rotate(p.r);c.fillStyle=p.c;c.font=`700 ${p.s}px system-ui`;c.fillText(p.g,-p.s/3,p.s/3);c.restore()});
+      if(el<2400)requestAnimationFrame(f);else cv.remove()};requestAnimationFrame(f)}
+  const old=$('.celebrate');if(old)old.remove();
+  const d=DATA[n-1],nx=DATA[n];
+  const card=document.createElement('div');card.className='celebrate';card.setAttribute('role','status');
+  card.innerHTML=`<span class="cel-num">${n}</span><div><b>Vel gert!</b><p>Þú kláraðir öll skrefin í lotu ${n}. Mundu skilaformið og sjálfsmatið neðst.</p></div>
+    <div class="row">${nx?`<a class="btn primary" href="#lota-${n+1}">Lota ${n+1} →</a>`:''}<button type="button" class="btn cel-x">Loka</button></div>`;
+  document.body.appendChild(card);requestAnimationFrame(()=>card.classList.add('show'));
+  const close=()=>{card.classList.remove('show');setTimeout(()=>card.remove(),300)};
+  card.querySelector('.cel-x').addEventListener('click',close);card.querySelector('a')?.addEventListener('click',close);setTimeout(()=>{if(card.isConnected)close()},12000);
+}
+
 /* ---------- skilakerfi (Google Sheets + Apps Script) ---------- */
 const SKIL_URL='https://script.google.com/macros/s/AKfycbzPK8UtCLg_vfe_XCOHBK0ty2OjeqEdHbHxguh54JEqTC5ZyYo6nwwR-LJD5WCttwZ0vw/exec'.indexOf('%%')===0?'':'https://script.google.com/macros/s/AKfycbzPK8UtCLg_vfe_XCOHBK0ty2OjeqEdHbHxguh54JEqTC5ZyYo6nwwR-LJD5WCttwZ0vw/exec';
 const SKIL_ON=/^https:\/\/script\.google(usercontent)?\.com\//.test(SKIL_URL);
@@ -1454,7 +1593,7 @@ function fmtDags(iso){if(!iso)return'';const d=new Date(iso);if(isNaN(d))return 
 const STADA_CLS=s=>/lokið/i.test(s)?'ok':/laga/i.test(s)?'redo':/yfirferð/i.test(s)?'busy':'got';
 const isFileField=f=>!/\?$/.test(f)&&/skrá|upptaka|\.wav|mp3|umslag/i.test(f);
 
-/* kóðareitur – notaður í skilaformi og á „Skilin mín“ */
+/* kóðareitur – notaður í skilaformi og á „Verkefnin mín“ */
 function kodiBox(onChange){
   const box=document.createElement('div');box.className='kodibox';
   const draw=()=>{const k=kodiNu(),n=nafnNu();
@@ -1512,7 +1651,7 @@ function skilEnhance(wrap,d,fields,row){
     try{
       for(const s of skrar){s.data=await readFile(s.file);delete s.file}
       const r=await skilPost({a:'skila',k:kodiNu(),lota:d.n,svor,skrar});
-      if(r.ok){msg.innerHTML='<b>Takk! Skilin eru komin til kennarans.</b> Þú sérð endurgjöfina hér og undir „Skilin mín“.';wrap.querySelectorAll('.filein').forEach(f=>f.value='');loadStatus()}
+      if(r.ok){msg.innerHTML='<b>Takk! Skilin eru komin til kennarans.</b> Þú sérð endurgjöfina hér og undir „Verkefnin mín“.';wrap.querySelectorAll('.filein').forEach(f=>f.value='');loadStatus()}
       else msg.textContent=r.villa||'Eitthvað fór úrskeiðis. Reyndu aftur.';
     }catch(e){msg.textContent='Næ ekki sambandi við skilakerfið. Athugaðu nettenginguna og reyndu aftur. Þú getur líka afritað textann og sent hann.'}
     send.disabled=false;
@@ -1520,7 +1659,7 @@ function skilEnhance(wrap,d,fields,row){
   loadStatus();
 }
 
-/* ---------- Skilin mín ---------- */
+/* ---------- Verkefnin mín ---------- */
 async function renderMinSkil(){
   const host=$('#minskil');if(!host)return;host.innerHTML='';
   if(!SKIL_ON){host.innerHTML='<div class="note">Skilakerfið er ekki tengt ennþá. Notaðu „Afrita texta“ í hverri lotu og sendu kennaranum.</div>';return}
