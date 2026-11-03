@@ -1,0 +1,782 @@
+<title>Tónlist í vafranum</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: same visual family as Hljóðhringir — mint paper, rounded Fredoka, white pill cards, perc/tone/amb colours; one readable column + full-width tool cards; three #hash views */
+:root{
+  --bg:#E4EFEA; --surface:#FFFFFF; --ink:#1B2A41; --muted:#4A5A72; --line:rgba(27,42,65,.16); --tint:#D6E6DF;
+  --accent:#1F6470; --accent-ink:#FFFFFF; --accent-soft:#CDE4E1; --deep:#123F48;
+  --kick:#1F6470; --snare:#FF6B3D; --hat:#5DBE6E; --open:#FFC93C;
+  --perc:#FF6B3D; --tone:#FFC93C; --amb:#7BD389;
+  --good:#2E8A4E; --warn:#9A6A00;
+  --f-display:"Fredoka", "Baloo 2", ui-rounded, "Arial Rounded MT Bold", "Trebuchet MS", system-ui, sans-serif;
+  --f-body:"Fredoka", "Baloo 2", ui-rounded, "Arial Rounded MT Bold", "Trebuchet MS", system-ui, sans-serif;
+  --f-mono:"Fredoka", ui-rounded, "Trebuchet MS", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#13212A; --surface:#1D2E3A; --ink:#EAF2EE; --muted:#A7B8C3; --line:rgba(234,242,238,.16); --tint:#22394A;
+  --accent:#6CC6D2; --accent-ink:#0C2D34; --accent-soft:#1B4550; --deep:#0C2D34;
+  --kick:#4FB3C1; --snare:#FF7E55; --hat:#7BD389; --open:#FFC93C;
+  --good:#7BD389; --warn:#FFC93C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#13212A; --surface:#1D2E3A; --ink:#EAF2EE; --muted:#A7B8C3; --line:rgba(234,242,238,.16); --tint:#22394A;
+  --accent:#6CC6D2; --accent-ink:#0C2D34; --accent-soft:#1B4550; --deep:#0C2D34;
+  --kick:#4FB3C1; --snare:#FF7E55; --hat:#7BD389; --open:#FFC93C;
+  --good:#7BD389; --warn:#FFC93C; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.read{max-width:44rem}
+h1,h2,h3{font-family:var(--f-display);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(2rem,5vw,3.1rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.65rem;font-weight:800;letter-spacing:-.01em}
+h3{font-size:1.2rem;font-weight:600}
+p{margin:0}
+.eyebrow{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+.stack{display:flex;flex-direction:column;gap:14px}
+.stack-lg{display:flex;flex-direction:column;gap:40px}
+
+/* nav */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:18px;padding-block:10px;flex-wrap:wrap}
+.brand{font-family:var(--f-display);font-weight:800;font-size:1.1rem;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
+.brand-mark{display:grid;grid-template-columns:repeat(4,6px);gap:2px}
+.brand-mark i{width:6px;height:6px;border-radius:1.5px;background:var(--line)}
+.brand-mark i.on{background:var(--accent)}
+nav.links{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+nav.links a{text-decoration:none;color:var(--muted);padding:6px 12px;border-radius:999px;font-size:.95rem}
+nav.links a[aria-current="page"]{background:var(--accent-soft);color:var(--ink);font-weight:700}
+
+main{padding-block:36px 80px}
+.view[hidden]{display:none!important}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:40px;align-items:center}
+.hero p.lead{font-size:1.2rem;margin-top:14px;max-width:34rem}
+@media (max-width:760px){.hero{grid-template-columns:1fr}}
+.hero-grid{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+.mini{display:grid;grid-template-columns:repeat(16,minmax(0,1fr));gap:3px}
+.mini span{aspect-ratio:1;border-radius:3px;background:var(--tint)}
+.mini span.q{background:var(--tint);opacity:.6}
+.mini span.k{background:var(--kick)} .mini span.s{background:var(--snare)} .mini span.h{background:var(--hat)}
+.hero-grid figcaption{font-size:.85rem;color:var(--muted);margin-top:10px}
+
+.btn{display:inline-flex;align-items:center;gap:8px;font:inherit;font-weight:700;border-radius:10px;padding:10px 18px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;text-decoration:none;min-height:44px}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn:hover{border-color:var(--accent)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* course structure */
+.recipe{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+@media (max-width:760px){.recipe{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.recipe div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px}
+.recipe b{display:block;font-family:var(--f-display);font-size:1.05rem}
+.recipe span{font-size:.92rem;color:var(--muted)}
+.recipe .n{font-family:var(--f-mono);font-size:.75rem;color:var(--accent)}
+
+.units{display:flex;flex-direction:column;border-top:1px solid var(--line);margin-top:14px}
+.unit{display:grid;grid-template-columns:4.2rem minmax(0,1fr) auto;gap:16px;align-items:center;padding:14px 4px;border-bottom:1px solid var(--line)}
+.unit .num{font-family:var(--f-mono);font-size:1.5rem;color:var(--muted)}
+.unit h3{font-size:1.08rem}
+.unit p{font-size:.92rem;color:var(--muted)}
+.unit.open .num{color:var(--accent)}
+.pill{font-size:.8rem;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--tint);color:var(--muted);white-space:nowrap}
+.pill.go{background:var(--accent-soft);color:var(--ink)}
+.unit a.unit-link{color:inherit;text-decoration:none}
+.unit a.unit-link:hover h3{text-decoration:underline}
+.phase{font-size:.78rem;font-family:var(--f-mono);color:var(--muted);padding:14px 4px 0;letter-spacing:.06em;text-transform:uppercase}
+
+.paths{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media (max-width:640px){.paths{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+
+table.tools{width:100%;border-collapse:collapse;font-size:.95rem}
+table.tools th,table.tools td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.tools th{font-size:.8rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.scroll{overflow-x:auto}
+
+/* lesson */
+.lesson-head{display:flex;flex-direction:column;gap:12px}
+.meta{display:flex;gap:8px;flex-wrap:wrap}
+.meta span{font-size:.85rem;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 12px}
+.toc{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.toc a{font-size:.88rem;text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:6px 10px;color:var(--ink);background:var(--surface)}
+.part{display:flex;flex-direction:column;gap:16px;scroll-margin-top:80px}
+.part-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.part-head .t{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);margin-left:auto}
+.goals{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.goals li{padding-left:28px;position:relative}
+.goals li::before{content:"";position:absolute;left:0;top:.45em;width:14px;height:14px;border-radius:3px;background:var(--accent)}
+.note{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:0 10px 10px 0}
+.note.warn{border-color:var(--open);background:var(--tint)}
+
+.terms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:640px){.terms{grid-template-columns:1fr}}
+.term{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.term dt{font-family:var(--f-display);font-weight:600;font-size:1.08rem}
+.term dt small{font-family:var(--f-body);font-weight:400;color:var(--muted);font-size:.85rem;margin-left:6px}
+.term dd{margin:4px 0 0;font-size:.95rem}
+
+.tap{display:flex;gap:16px;align-items:center;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px}
+.tap-btn{width:96px;height:96px;border-radius:50%;border:none;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:700;font-size:1.05rem;cursor:pointer;transition:transform .06s}
+.tap-btn:active{transform:scale(.94)}
+.tap-read{font-family:var(--f-mono);font-size:2rem}
+.tap-read small{font-size:.9rem;color:var(--muted)}
+
+ol.steps{list-style:none;counter-reset:s;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
+ol.steps>li{counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px 16px 64px;position:relative}
+ol.steps>li::before{content:counter(s);position:absolute;left:16px;top:14px;width:34px;height:34px;border-radius:9px;background:var(--ink);color:var(--surface);font-family:var(--f-mono);display:grid;place-items:center;font-size:1rem}
+ol.steps>li.done{border-color:var(--good)}
+ol.steps>li.done::before{background:var(--good);content:"✓"}
+ol.steps h3{font-size:1.08rem;margin-bottom:6px}
+ol.steps p+p,ol.steps p+ul,ol.steps ul+p{margin-top:8px}
+ol.steps ul{margin:8px 0 0;padding-left:20px}
+.step-done{margin-top:12px;display:flex;align-items:center;gap:8px;font-size:.92rem;color:var(--muted);cursor:pointer;width:fit-content}
+.step-done input{width:20px;height:20px;accent-color:var(--good)}
+.kbd{font-family:var(--f-mono);font-size:.85em;background:var(--tint);border:1px solid var(--line);border-radius:5px;padding:1px 6px;white-space:nowrap}
+
+table.settings{border-collapse:collapse;margin-top:10px;font-size:.95rem;width:100%}
+table.settings td{padding:7px 10px;border-bottom:1px solid var(--line)}
+table.settings td:first-child{font-family:var(--f-mono);font-size:.88rem;white-space:nowrap}
+table.settings td:nth-child(2){font-weight:700;white-space:nowrap}
+table.settings td:last-child{color:var(--muted)}
+
+/* Song Maker-style examples */
+.sm{display:grid;gap:3px;margin-top:10px;min-width:440px}
+.sm .lab{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);display:flex;align-items:center}
+.sm .c{height:26px;border-radius:4px;background:var(--tint)}
+.sm .c.alt{background:color-mix(in srgb,var(--tint) 55%,var(--surface))}
+.sm .c.hd{background:none;height:auto;text-align:center;font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.sm .c.lo{background:var(--kick)} .sm .c.hi{background:var(--snare)}
+.sm .c.m{background:var(--hat)} .sm .c.m.end{background:var(--open)}
+.sm-cap{font-size:.85rem;color:var(--muted);margin-top:6px}
+
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:760px){.tiers{grid-template-columns:1fr}}
+.tiers .card h3{font-size:1.02rem}
+.tiers .lvl{font-family:var(--f-mono);font-size:.75rem;color:var(--accent)}
+
+.selfcheck{display:flex;flex-direction:column;gap:8px}
+.selfcheck label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.selfcheck input{width:20px;height:20px;margin-top:3px;accent-color:var(--good);flex:none}
+
+.form{display:flex;flex-direction:column;gap:14px}
+.form label{font-weight:700;font-size:.95rem;display:flex;flex-direction:column;gap:6px}
+.form label span{font-weight:400;color:var(--muted);font-size:.88rem}
+input[type=text],input[type=url],textarea{font:inherit;font-size:1rem;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);width:100%}
+textarea{min-height:84px;resize:vertical}
+.out{font-family:var(--f-mono);font-size:.85rem;white-space:pre-wrap;background:var(--tint);border-radius:10px;padding:14px;min-height:80px}
+.toast{font-size:.9rem;color:var(--good);font-weight:700}
+
+details.teacher{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:14px 18px}
+details.teacher summary{cursor:pointer;font-weight:700}
+details.teacher ul{margin:10px 0 0;padding-left:20px}
+
+/* drum machine */
+.dm{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:16px}
+.dm-controls{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.play{width:56px;height:56px;border-radius:50%;border:none;background:var(--accent);color:var(--accent-ink);cursor:pointer;display:grid;place-items:center}
+.play svg{width:22px;height:22px}
+.slider{display:flex;flex-direction:column;gap:2px;min-width:150px;flex:1 1 150px;max-width:240px}
+.slider label{font-size:.8rem;color:var(--muted);display:flex;justify-content:space-between}
+.slider label output{font-family:var(--f-mono);color:var(--ink)}
+.slider input{width:100%;accent-color:var(--accent)}
+.styles{display:flex;gap:6px;flex-wrap:wrap}
+.styles button{font:inherit;font-size:.9rem;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer;min-height:36px}
+.styles button[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.grid-wrap{overflow-x:auto;position:relative}
+.seq{display:grid;grid-template-columns:7.5rem repeat(16,minmax(28px,1fr));gap:4px;min-width:640px}
+.seq .rl{font-size:.85rem;display:flex;align-items:center;gap:8px;padding-right:6px}
+.seq .rl i{width:10px;height:10px;border-radius:3px;flex:none}
+.seq .hd{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);text-align:center;padding-bottom:2px}
+.seq .hd.b{color:var(--ink);font-weight:500}
+.cell{height:40px;border-radius:6px;border:1px solid var(--line);background:var(--bg);cursor:pointer;padding:0;transition:transform .05s}
+.cell.beat{background:var(--tint)}
+.cell[data-v="1"]{border-color:transparent}
+.cell[data-v="2"]{border-color:transparent;opacity:.42}
+.cell.now{box-shadow:0 0 0 2px var(--ink) inset;transform:scale(.94)}
+.r-kick .cell[data-v="1"],.r-kick .cell[data-v="2"]{background:var(--kick)}
+.cell.k[data-v="1"],.cell.k[data-v="2"]{background:var(--kick)}
+.cell.s[data-v="1"],.cell.s[data-v="2"]{background:var(--snare)}
+.cell.h[data-v="1"],.cell.h[data-v="2"]{background:var(--hat)}
+.cell.o[data-v="1"],.cell.o[data-v="2"]{background:var(--open)}
+.masked .cell[data-v="1"],.masked .cell[data-v="2"]{background:var(--muted)!important;opacity:.25}
+.dm-info{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media (max-width:700px){.dm-info{grid-template-columns:1fr}}
+.dm-info h3{font-size:1.15rem}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.85rem;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--ink);vertical-align:-1px;margin-right:6px}
+.legend i.soft{opacity:.4}
+.quiz-opts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.quiz-opts button{font:inherit;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:8px 14px;cursor:pointer;min-height:44px}
+.quiz-opts button.right{background:var(--good);color:var(--surface);border-color:var(--good)}
+.quiz-opts button.wrong{border-color:var(--snare);text-decoration:line-through}
+.score{font-family:var(--f-mono);font-size:.9rem;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding-block:24px;color:var(--muted);font-size:.88rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ---- Hljóðhringir family: rounded, soft, playful ---- */
+body{font-weight:400;letter-spacing:.005em}
+h1{font-weight:600;letter-spacing:-.01em}
+h2{font-weight:600;letter-spacing:0}
+h3{font-weight:500}
+b,strong{font-weight:600}
+.eyebrow{font-family:var(--f-body);font-weight:500;letter-spacing:.06em}
+header.top{border-bottom:none;background:var(--bg)}
+body::before{background:var(--bg)}
+.brand{font-weight:600}
+.brand-mark{display:flex;gap:4px;align-items:center}
+.brand-mark b{width:14px;height:14px;display:block}
+.brand-mark b:nth-child(1){background:var(--perc);border-radius:50%}
+.brand-mark b:nth-child(2){background:var(--tone);border-radius:3px;transform:rotate(45deg) scale(.85)}
+.brand-mark b:nth-child(3){background:var(--amb);border-radius:42% 58% 63% 37%/45% 40% 60% 55%}
+nav.links{background:var(--surface);border-radius:999px;padding:4px;box-shadow:0 2px 0 var(--line)}
+nav.links a{font-weight:500;padding:7px 16px}
+nav.links a[aria-current="page"]{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.btn{border-radius:999px;border:none;box-shadow:0 2px 0 var(--line);font-weight:600;padding:10px 20px}
+.btn.primary{box-shadow:0 3px 0 var(--deep)}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(1px);box-shadow:0 1px 0 var(--line)}
+.card,.recipe div,.term,.tap,ol.steps>li,.selfcheck label,.dm,.hero-grid,details.teacher{border:none;border-radius:24px;box-shadow:0 2px 0 var(--line)}
+.dm{border-radius:32px}
+.hero-grid{border-radius:32px;padding:22px}
+.recipe .n,.tiers .lvl,.unit .num,.part-head .t,.score,table.settings td:first-child,.seq .hd,.sm .lab,.sm .c.hd{font-family:var(--f-body);font-variant-numeric:tabular-nums}
+.recipe div:nth-child(3n+1) .n{color:var(--perc)} .recipe div:nth-child(3n+2) .n{color:#B88A00} .recipe div:nth-child(3n) .n{color:var(--good)}
+.units{border-top:none;gap:8px}
+.unit{background:var(--surface);border:none;border-radius:20px;padding:12px 16px;box-shadow:0 2px 0 var(--line)}
+.unit .num{font-weight:600}
+.unit.open{outline:2px solid var(--accent)}
+.phase{padding:10px 4px 0}
+.pill{font-weight:500}
+.part-head{border-bottom:none;background:var(--surface);border-radius:999px;padding:10px 20px;box-shadow:0 2px 0 var(--line)}
+.part-head h2{font-size:1.35rem}
+ol.steps>li::before{border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:600}
+.goals li::before{border-radius:50%;background:var(--amb)}
+.goals li:nth-child(3n+1)::before{background:var(--perc)}
+.goals li:nth-child(3n+2)::before{background:var(--tone);border-radius:3px;transform:rotate(45deg) scale(.8)}
+.note{border-left:none;border-radius:20px;padding:14px 18px}
+.note.warn{background:color-mix(in srgb,var(--tone) 28%,var(--surface))}
+.kbd{border-radius:999px;font-family:var(--f-body);font-weight:500;padding:1px 9px}
+.styles button,.quiz-opts button{border:none;box-shadow:0 2px 0 var(--line);background:var(--surface);font-weight:500}
+.styles button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.cell{border-radius:10px;border:none;box-shadow:inset 0 0 0 1px var(--line)}
+.cell[data-v="1"],.cell[data-v="2"]{box-shadow:none}
+.play{box-shadow:0 3px 0 var(--deep)}
+input[type=text],input[type=url],textarea{border-radius:16px;border:none;box-shadow:inset 0 0 0 1.5px var(--line)}
+.out{border-radius:16px;font-family:var(--f-body)}
+table.tools{background:var(--surface);border-radius:20px;overflow:hidden;box-shadow:0 2px 0 var(--line)}
+table.tools th,table.tools td{padding:10px 14px}
+.mini span{border-radius:5px}
+footer{border-top:none}
+
+/* ---- lotur úr markdown ---- */
+a.unit{color:inherit;text-decoration:none}
+a.unit:hover h3{text-decoration:underline}
+.unit .tools-line{font-size:.85rem;color:var(--accent);margin-top:2px}
+.recipe{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.lead2{font-size:1.18rem}
+.meta span b{font-weight:600;margin-right:4px}
+.toc button{font:inherit;font-size:.88rem;border:none;border-radius:999px;padding:6px 12px;color:var(--ink);background:var(--surface);box-shadow:0 2px 0 var(--line);cursor:pointer}
+.md{display:flex;flex-direction:column;gap:14px;min-width:0}
+.md > ol:not(.steps), .md > ul{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px}
+.md p{margin:0}
+table.mdtable{border-collapse:collapse;width:100%;font-size:.95rem;background:var(--surface);border-radius:20px;overflow:hidden;box-shadow:0 2px 0 var(--line)}
+table.mdtable th,table.mdtable td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+table.mdtable tr:last-child td{border-bottom:none}
+table.mdtable th{font-size:.8rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em;background:color-mix(in srgb,var(--tint) 50%,var(--surface))}
+table.mdtable td:first-child{font-weight:600}
+.listen{background:var(--surface);border-radius:20px;padding:14px 18px;box-shadow:0 2px 0 var(--line);border:2px dashed color-mix(in srgb,var(--amb) 70%,var(--line))}
+.subhead{font-weight:600;margin-top:6px}
+ol.steps{padding:0}
+ol.steps>li>p{margin:0}
+ol.steps>li ul{margin:8px 0 0;padding-left:20px}
+ol.steps>li .hook-block{margin-top:10px}
+.selfcheck label span p{margin:0}
+.goalsmd ul{margin:0}
+.form h3{margin:0}
+.tiers .card p{margin:0}
+details.teacher .md ul{margin:8px 0 0}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#forsida">
+      <span class="brand-mark" aria-hidden="true"><b></b><b></b><b></b></span>
+      Tónlist í vafranum
+    </a>
+    <nav class="links" aria-label="Aðalvalmynd">
+      <a href="#forsida" data-nav="forsida">Áfanginn</a>
+      <a href="#lotur" data-nav="lotur">Loturnar</a>
+      <a href="#taktvel" data-nav="taktvel">Taktvélin</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============ FORSÍÐA ============ -->
+<section class="view stack-lg" data-view="forsida">
+  <div class="hero">
+    <div>
+      <p class="eyebrow">Fjarnám · unglingastig · 10 lotur</p>
+      <h1>Búðu til tónlist með því sem er nú þegar í vafranum þínum</h1>
+      <p class="lead">Engin forrit til að sækja, ekkert að kaupa og enginn aðgangur. Í hverri lotu lærir þú eitt atriði úr raftónlist og býrð til lítið verk sem sýnir það.</p>
+      <div class="row" style="margin-top:22px">
+        <a class="btn primary" href="#lota-1">Byrja á lotu 1</a>
+        <a class="btn" href="#taktvel">Prófa taktvélina</a>
+      </div>
+    </div>
+    <figure class="hero-grid" style="margin:0">
+      <div class="mini" id="heroMini" aria-hidden="true"></div>
+      <figcaption>Einn taktur í 16 reitum: bassatromma, snerill og hi-hat. Svona lítur nær öll raftónlist út undir húddinu.</figcaption>
+    </figure>
+  </div>
+
+  <section class="read stack">
+    <h2>Svona virkar hver lota</h2>
+    <p>Allar lotur eru byggðar eins, svo þú veist alltaf hvar þú ert. Hver lota tekur um þrjár klukkustundir og þú vinnur á þínum hraða.</p>
+  </section>
+  <div class="recipe">
+    <div><span class="n">1</span><b>Kveikja</b><span>Stutt hlustun eða leikur sem vekur áhuga.</span></div>
+    <div><span class="n">2</span><b>Hugtök</b><span>Orðin sem þú þarft, með skýringum.</span></div>
+    <div><span class="n">3</span><b>Uppskrift</b><span>Skref fyrir skref í vefforritinu.</span></div>
+    <div><span class="n">4</span><b>Áskorun</b><span>Valfrjálst, fyrir þá sem vilja meira.</span></div>
+    <div><span class="n">5</span><b>Skil og ígrundun</b><span>Sjálfsmat og skilaform til kennara.</span></div>
+  </div>
+
+
+  <section class="stack">
+    <h2>Loturnar</h2>
+    <div class="units" id="units"></div>
+  </section>
+
+  <section class="stack">
+    <h2>Verkfærakistan</h2>
+    <p class="read">Öll forritin eru ókeypis og opnast beint í Chrome. Sum vista vinnuna bara í vafranum, svo þú þarft að vista slóð eða flytja út skrá í lok hverrar lotu.</p>
+    <div class="scroll">
+      <table class="tools">
+        <thead><tr><th>Forrit</th><th>Til hvers</th><th>Lota</th><th>Vistar sem</th></tr></thead>
+        <tbody id="toolRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="read stack">
+    <h2>Það sem þú þarft</h2>
+    <ul style="margin:0;padding-left:20px">
+      <li>Tölvu eða Chromebook með Chrome. Spjaldtölva dugar í flestum lotum.</li>
+      <li>Heyrnartól. Þú heyrir muninn miklu betur, og fjölskyldan þakkar þér.</li>
+      <li>Stað til að geyma slóðir og skrár, t.d. skjal eða möppu sem heitir „Tónlist í vafranum“.</li>
+    </ul>
+  </section>
+</section>
+
+<!-- ============ LOTA ============ -->
+<section class="view stack-lg" data-view="lota" hidden>
+  <div id="lesson" class="stack-lg"></div>
+</section>
+
+<!-- ============ TAKTVÉL ============ -->
+<section class="view stack-lg" data-view="taktvel" hidden>
+  <div class="lesson-head read">
+    <p class="eyebrow">Verkfæri · notað í lotu 2</p>
+    <h1>Taktvélin</h1>
+    <p style="font-size:1.15rem">Veldu stíl, ýttu á spila og hlustaðu. Smelltu svo á reitina til að breyta taktinum og heyrðu hvenær hann hættir að hljóma eins og stíllinn.</p>
+  </div>
+
+  <div class="dm" id="dm">
+    <div class="dm-controls">
+      <button class="play" id="playBtn" type="button" aria-label="Spila"></button>
+      <div class="slider"><label for="bpm">Hraði <output id="bpmOut">120 BPM</output></label><input type="range" id="bpm" min="60" max="180" value="120"></div>
+      <div class="slider"><label for="swing">Sveifla <output id="swingOut">0%</output></label><input type="range" id="swing" min="0" max="60" value="0"></div>
+      <button class="btn" id="clearBtn" type="button">Hreinsa</button>
+    </div>
+    <div class="styles" id="styles" role="group" aria-label="Stílar"></div>
+    <div class="grid-wrap"><div class="seq" id="seq" role="grid" aria-label="Taktur í 16 reitum"></div></div>
+    <div class="legend"><span><i></i>Fullt slag</span><span><i class="soft"></i>Veikt slag (smelltu aftur)</span><span>Skyggðir reitir eru slögin fjögur</span></div>
+    <div class="dm-info">
+      <div class="stack" id="styleInfo"></div>
+      <div class="card stack" style="background:var(--bg)">
+        <h3>Hvaða stíll er þetta?</h3>
+        <p class="muted" style="font-size:.95rem">Vélin spilar takt án þess að sýna hvar slögin eru. Hlustaðu og giskaðu.</p>
+        <div class="row"><button class="btn primary" id="quizBtn" type="button">Nýr leynitaktur</button><span class="score" id="score">0 / 0</span></div>
+        <div class="quiz-opts" id="quizOpts"></div>
+        <p id="quizMsg" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+
+  <section class="read stack">
+    <h2>Vistaðu taktinn þinn</h2>
+    <p>Taktvélin geymir ekkert. Afritaðu taktinn sem texta og límdu hann í skjalið þitt eða skilin. Þú getur límt hann inn aftur seinna.</p>
+    <div class="row"><button class="btn primary" id="exportBtn" type="button">Afrita takt sem texta</button><span class="toast" id="exportToast" aria-live="polite"></span></div>
+    <label for="importText" style="font-weight:700">Líma inn takt</label>
+    <textarea id="importText" placeholder="BT: x...|....|x...|....&#10;SN: ....|x...|....|x..."></textarea>
+    <div class="row"><button class="btn" id="importBtn" type="button">Hlaða inn</button><span class="toast" id="importToast" aria-live="polite"></span></div>
+  </section>
+
+  <section class="read stack">
+    <h2>Prófaðu þetta</h2>
+    <ol style="margin:0;padding-left:22px" class="stack">
+      <li>Veldu <b>House</b> og taktu út opnu hi-hattana. Hvað hverfur úr tilfinningunni?</li>
+      <li>Veldu <b>Hip hop</b> og færðu sveifluna í 0%. Hljómar takturinn stífari eða betri?</li>
+      <li>Veldu <b>Trap</b> og <b>Rokk</b> og berðu saman hvar snerillinn lendir. Af hverju finnst trap hægara þótt BPM sé hærra?</li>
+      <li>Búðu til þinn eigin takt sem blandar tveimur stílum og gefðu blöndunni nafn.</li>
+    </ol>
+  </section>
+</section>
+
+</main>
+<footer><div class="wrap">Tónlist í vafranum · fjarnámsáfangi í raftónlist · öll forrit eru ókeypis og án innskráningar</div></footer>
+
+<script type="application/json" id="lotur-data">["# Lota 1 · Fyrsta lykkjan\n\n**Inngangur:** Búum til fjögurra takta lykkju í Song Maker: trommutakt og laglínu\n\n**Áætlaður tími:** um 3 klst.\n\n**Hvaða forrit/vefsíður notum við:** Song Maker, Patatap\n\n**Hvernig er verkefninu skilað:** ein slóð\n\n## Við lok kennslustundar get ég:\n\n- fundið púlsinn í lagi og útskýrt hvað BPM þýðir\n- breytt lengd, takt og tónstiga í Song Maker\n- búið til takt þar sem djúpa og háa hljóðið skiptast á\n- samið einfalda laglínu\n\n## 1 · Kveikja\n\nOpnaðu [Patatap](https://patatap.com) og ýttu á stafi á lyklaborðinu (eða pikkaðu á skjáinn). Hver stafur er eitt hljóð.\n\n1. Finndu tvo stafi sem hljóma eins og trommur, eitt djúpt og eitt hátt hljóð.\n2. Ýttu á þá til skiptis, jafnt og rólega: **djúpt**, hátt, **djúpt**, hátt. Haltu því áfram í tíu sekúndur.\n3. Bættu við þriðja stafnum.\n\n**Taktu eftir:** um leið og eitthvað endurtekur sig jafnt fer líkaminn að hreyfast með. Það er púlsinn.\n\n## 2 · Hugtök\n\n| Hugtak | Enska | Skýring |\n| --- | --- | --- |\n| Púls | beat | Jöfnu slögin sem þú klappar eða vaggar höfðinu með. |\n| BPM | beats per minute | Hve mörg slög koma á einni mínútu. 60 BPM er eitt slag á sekúndu; 120 BPM eru tvö. |\n| Taktur | bar | Hópur af slögum, oftast fjórum. Þú telur 1-2-3-4, 1-2-3-4. |\n| Lykkja | loop | Stuttur bútur sem byrjar aftur um leið og hann endar. Grunnur flestra raftónlistarlaga. |\n| Tónstigi | scale | Tónarnir sem þú mátt velja úr. Fimmtónstigi hefur bara fimm tóna sem hljóma alltaf vel saman. |\n| Grunntónn | root | Heimatónninn. Laglína sem endar á honum hljómar eins og hún sé komin heim. |\n| Spurning og svar | call & response | Fyrri hlutinn endar opinn (spurning), seinni hlutinn byrjar eins en endar heima (svar). |\n| Endurtekning og tilbrigði | repetition & variation | Endurtaktu nóg til að eyrað þekki hugmyndina, breyttu nóg til að það haldist vakandi. |\n\n**Hlustunarverkefni: Finndu púlsinn.** Settu á lag sem þér finnst skemmtilegt og pikkaðu á hnappinn í takt við lagið (minnst átta sinnum). Taktmælirinn reiknar **BPM** lagsins. Skrifaðu hjá þér: Nafn lagsins, **BPM**-töluna og eftir hve marga takta fyrsti hlutinn endurtekur sig (það er oftast 4 eða 8).\n\n[[taktmaelir]]\n\n## 3 · Uppskrift af lagi\n\nHakaðu við hvert skref þegar því er lokið. *Vafrinn man hvar þú varst ef þú tekur hlé*.\n\n1. **Opnaðu Song Maker.** Farðu á [Chrome Music Lab Song Maker](https://musiclab.chromeexperiments.com/Song-Maker/) og settu á þig heyrnartól. Smelltu á nokkra reiti og ýttu á Play til að heyra hvernig það virkar. Smelltu aftur á reit til að hreinsa hann. Efri hlutinn er laglínan, hver röð er einn tónn. Neðst eru tvær raðir fyrir trommur.\n2. **Setjum upp lagið.** Smelltu á Settings og veldu: Length **4 bars** · Beats per bar **4** · Split beats into **2** · Scale **Pentatonic** · Start on **C, Middle** · Range **1 octave**. Smelltu svo á OK.\n3. **Byrjum á taktinum.** Í hverjum takti eru nú átta reitir: tveir fyrir hvert slag. Settu djúpa hljóðið (neðri röðin) á slög **1** og **3**, og háa hljóðið (efri röðin) á slög **2** og **4**. Gerðu það sama í öllum fjórum töktunum. Ýttu á Play. Þarna erum við komin með takt sem mörg rokk-, popp- og hip hop-lög byggja á. [[grid-taktur]]\n4. **Finndu hraðann.** Færðu Tempo stikuna og veldu hraða sem þér líkar.\n5. **Semdu einfalda laglínu (spurning) (taktar 1–2).** Notaðu í mesta lagi fjórar nótur í hvorum takti. Þú getur byrjað á hvaða tóni sem er, en **forðumst að enda á neðstu röðinni**. Þá hljómar hendingin opin, eins og hún bíði eftir svari. *Dæmi: E–G–A–G | E–D–E.* [[grid-spurning]]\n6. **Semdu næstu laglínu (svarið) (taktar 3–4).** Afritaðu byrjun spurningarinnar í takt 3, svo eyrað kannist við hana. Breyttu endinum í takti 4 þannig að síðasta nótan lendi á **neðstu röðinni (C)**. Hlustaðu: hljómar þetta eins og lagið sé komið heim? *Dæmi: E–G–A–G | E–D–C.* [[grid-svar]]\n7. **Prófaðu að breyta hljóðunum.** Smelltu á hljóðfærahnappana neðst og prófaðu öll laglínuhljóðfærin (Marimba, Piano, Strings, Woodwind, Synth) og öll trommuhljóðin. Veldu þá samsetningu sem passar best við lagið þitt.\n8. **Hlustaðu þrisvar og lagaðu eitt atriði.** Spilaðu lykkjuna þrisvar í röð án þess að breyta neinu. Finndu svo eina nótu, trommuslag eða stað þar sem vantar eitthvað og lagaðu.\n9. **Vistaðu lagið.** Smelltu á **Save** og afritaðu slóðina sem birtist. **Límdu** hana í skjalið þitt og í skilaformið. **Mikilvægt:** ef þú lokar Song Maker án þess að vista er lykkjan horfin. Hver ný útgáfa fær nýja slóð, svo vistaðu aftur eftir breytingar.\n\n## 4 · Áskorun (valfrjálst)\n\nVeldu eina. Byrjaðu á nýrri útgáfu svo upprunalega lykkjan haldist óbreytt.\n\n- **Létt ·** Breyttu **Beats per bar** í 3 og lagaðu taktinn. Hvernig breytist tilfinningin? Lýstu því í einni setningu.\n- **Miðlungs · B-kafli.** Breyttu **Length** í 8. Taktar 5–8 fá nýja laglínu sem notar aðra tóna en sama taktinn. Nú hefur lykkjan tvo kafla: A og B.\n- **Erfitt · Syngdu hugmyndina.** Smelltu á hljóðnemann í Song Maker og syngdu eða raulaðu stutta laglínu. Lagaðu svo nóturnar sem lenda á röngum stað.\n\n## 5 · Skil og ígrundun\n\n**Sjálfsmat**\n\n- [ ] Lykkjan mín er fjórir taktar og spilar án hiks þegar hún byrjar aftur.\n- [ ] Djúpa og háa hljóðið skiptast á og púls lagsins heyrist greinilega.\n- [ ] Laglínan hefur spurningu sem endar opin og svar sem endar á grunntóni.\n- [ ] Ég get sagt hvað BPM lykkjunnar er og af hverju ég valdi þann hraða.\n\n**Skilaform:** Nafn, Slóð á lagið, Hvað gerðir þú? Hvað heyrist núna sem heyrðist ekki í byrjun? · Hvað myndir þú vilja prófa næst?\n\n**Ef eitthvað virkar ekki:** Ekkert hljóð: athugaðu hljóðstyrk og að heyrnartólin séu tengd; á iPad þarf að slökkva á hljóðlausri stillingu. Save virkar ekki: bíddu smá og reyndu aftur, eða taktu skjáskot af gridinu og sendu það í staðinn.\n\n## Fyrir kennara\n\n- Hæfni: púls og BPM, uppbygging takts, spurning og svar, vistun verks.\n- Lágmarksskil: slóð á lykkju sem uppfyllir atriði 1–3 í sjálfsmati.\n- Endurgjöf: nefna eitt sem virkar og eina tillögu tengda spurningu og svari.\n- Fimmtónstiginn er valinn viljandi: nemendur einbeita sér að formi og takti án þess að hafa áhyggjur af „röngum“ nótum.\n", "# Lota 2 · Trommutaktar og stílar\n\n**Inngangur:** Búum til trommutakta í ólíkum stílum og lærum að heyra hvar bassatromma, snerill og hi-hat lenda.\n\n**Áætlaður tími:** um 3 klst.\n\n**Hvaða forrit/vefsíður notum við:** Taktvélin, Groove Pizza, roland50.studio\n\n**Hvernig er verkefninu skilað:** þrír taktar sem texti eða slóð\n\n## Við lok kennslustundar get ég:\n\n- Nefnt þrjá hluta trommusettsins og hlutverk þeirra\n- Lesið og skrifað takt í 16 reita gridi\n- Þekkt nokkra stíla frá trommutakti\n- Notað sveiflu til breyta áherslu taktsins\n\n## 1 · Kveikja\n\nOpnaðu **Taktvélina** á vef áfangans og smelltu á **Nýr leynitaktur**. Vélin spilar takt án þess að sýna hvar slögin eru.\n\n1. Hlustaðu og giskaðu á stílinn.\n2. Gerðu þetta nokkrum sinnum.\n3. Skrifaðu niður hve oft þú giskaðir rétt.\n\n[[taktvel-hnappur]]\n\n## 2 · Hugtök\n\n| Hugtak | Enska | Skýring |\n| --- | --- | --- |\n| Bassatromma | kick | Djúpa þunga slagið. |\n| Snerill / klapp | snare / clap | Hvassa slagið sem svarar bassatrommunni. |\n| Hi-hat | hi-hat | Málmhljóðið sem fyllir upp á milli. Lokuð er stutt „tss“, opin er langt „tsssss“. |\n| Sextándupartur | 16th note | Fjórir reitir á hvert slag, 16 reitir í takti. Reitir 1, 5, 9 og 13 eru slögin fjögur. |\n| Backbeat | backbeat | Snerill á slögum 2 og 4. Grunnur í rokki, poppi og hip hop. |\n| Four-on-the-floor | four-on-the-floor | Bassatromma á öllum fjórum slögunum. Grunnur í disco og house. |\n| Half-time | half-time | Snerillinn kemur bara einu sinni í takti, á slagi 3. Takturinn virkar hægari. |\n| Sveifla | swing | Annar hver reitur kemur aðeins seinna. Takturinn rúllar í stað þess að tikka. Áhersla á slag 2 og 4. |\n| Draugaslag | ghost note | Veikt slag á sneril á milli sterku slaganna. |\n\n**Hlustunarverkefni: Finndu trommurnar.** Settu á lag sem þér finnst skemmtilegt. Klappaðu með snerlinum og stappaðu með bassatrommunni. Skrifaðu hjá þér: Nafn lagsins og á hvaða slögum snerillinn lendir.\n\n## 3 · Uppskrift af töktum\n\nHakaðu við hvert skref þegar því er lokið. *Vafrinn man hvar þú varst ef þú tekur hlé*.\n\n1. **Hlustum á þrjá stíla.** Veldu **Rokk / popp**, **House** og **Trap** í Taktvélinni og spilaðu hvern í smá stund. Skoðaðu gridið á meðan. Hvar lendir snerillinn?\n2. **Tökum takt í sundur.** Veldu **Funk**. Taktu út hi-hattana, næst veiku slögin á snerlinum og svo bassatrommuna. Hlustaðu eftir hverja breytingu.\n3. **Búum til rokktakt.** Smelltu á **Hreinsa**. Settu bassatrommu á reiti **1** og **9**, sneril á **5** og **13** og lokaða hi-hat á alla oddatölureiti (1, 3, 5 … 15). Þarna erum við komin með takt sem mörg rokk- og popplög byggja á. Smelltu á **Afrita takt sem texta** og límdu hann í skjalið þitt.\n4. **Breytum honum í house.** Bættu bassatrommu á reiti **5** og **13**. Taktu út lokuðu hi-hattana og settu opna hi-hat á reiti **3, 7, 11** og **15**. Færðu hraðann upp í 124. Þetta er taktur 2.\n5. **Prófaðu sveiflu.** Veldu **Hip hop** og færðu sveifluna upp og niður. Veldu þá stillingu sem þér líkar.\n6. **Prófaðu Groove Pizza.** Opnaðu [Groove Pizza](https://apps.musedlab.org/groovepizza/). Hver hringur er eitt hljóðfæri og hver sneið er einn reitur. Veldu einn af tilbúnu taktunum og skoðaðu formið sem hann myndar.\n7. **Búðu til þinn eigin takt.** Veldu stíl úr töflunni hér fyrir neðan og byggðu hann frá grunni í Taktvélinni eða Groove Pizza. Þetta er taktur 3.\n8. **Prófaðu alvöru trommuheila.** Opnaðu [roland50.studio](https://roland50.studio) og veldu TR-808. Spilaðu tilbúnu taktana og breyttu einum þeirra.\n9. **Vistaðu taktana.** Afritaðu taktana sem texta úr Taktvélinni eða sæktu hljóðskrá úr Groove Pizza. **Límdu** þá í skjalið þitt og í skilaformið. **Mikilvægt:** Taktvélin geymir ekki það sem við höfum gert svo afritaðu alltaf áður en þú lokar.\n\n**Trommutaktar eftir stílum** (reitir 1–16)\n\n| Stíll | BPM | Bassatromma | Snerill / klapp | Hi-hat |\n| --- | --- | --- | --- | --- |\n| Rokk / popp | 100–130 | 1, 9, 11 | 5, 13 | áttundupartar |\n| Funk | 95–115 | 1, 4, 11 | 5, 13 + veik slög 8, 10, 16 | sextándupartar |\n| Disco | 115–125 | 1, 5, 9, 13 | 5, 13 | lokuð 1, 5, 9, 13 + opin 3, 7, 11, 15 |\n| House | 120–128 | 1, 5, 9, 13 | klapp 5, 13 | opin 3, 7, 11, 15 |\n| Hip hop | 85–95 | 1, 8, 11 | 5, 13 | áttundupartar með sveiflu |\n| Trap | 130–150 | 1, 11 | 9 | sextándupartar |\n| Reggaeton | 90–100 | 1, 5, 9, 13 | 4, 7, 12, 15 | áttundupartar |\n| Drum and bass | 160–175 | 1, 11 | 5, 13 | áttundupartar |\n| Lo-fi | 70–90 | 1, 8, 11 | 5, 13 | áttundupartar með sveiflu |\n\n## 4 · Áskorun (valfrjálst)\n\nVeldu eina.\n\n- **Létt ·** Blandaðu tveimur stílum í einn takt og gefðu nafn.\n- **Miðlungs · Fylling.** Búðu til útgáfu af taktinum þínum með snerilrúllu í lokin (reitir 13–16).\n- **Erfitt · Eftir eyranu.** Veldu lag sem þú þekkir og reyndu að afrita trommutaktinn í Taktvélinni.\n\n## 5 · Skil og ígrundun\n\n**Sjálfsmat**\n\n- [ ] Ég á þrjá takta í ólíkum stílum og veit hvað hver heitir.\n- [ ] Ég get sagt hvar snerillinn lendir í hverjum þeirra.\n- [ ] Einn takturinn er búinn til frá grunni.\n- [ ] Ég prófaði sveiflu og heyri hvað hún gerir.\n\n**Skilaform:** Nafn, Taktarnir þrír (texti eða slóð), Stíllinn sem þú valdir, Hvaða hluti trommusettsins breytir stílnum mest? Hvað kom þér á óvart?\n\n## Fyrir kennara\n\n- Hæfni: lesa og skrifa takt í gridi, þekkja stíla á trommum, sveifla.\n- Lágmarksskil: þrír taktar með nafni stíls, einn búinn til frá grunni.\n- Stíllinn sem nemandi velur hér fylgir honum í lokaverkefnið.\n- Giskaleikurinn í kveikjunni hentar líka sem upphitun í byrjun næstu lotna.\n", "# Lota 3 · Hljómar og bassi\n\n**Inngangur:** Búum til hljómagang úr fjórum hljómum og bassalínu.\n\n**Áætlaður tími:** um 3 klst.\n\n**Hvaða forrit/vefsíður notum við:** Hooktheory Trends, Ableton Learning Music, Song Maker\n\n**Hvernig er verkefninu skilað:** ein slóð\n\n## Við lok kennslustundar get ég:\n\n- heyrt mun á dúr og moll\n- búið til hljómagang úr fjórum hljómum\n- samið einfalda bassalínu sem byrjar á grunntóni\n\n## 1 · Kveikja\n\nOpnaðu [Hooktheory Trends](https://www.hooktheory.com/trends) og smelltu á hljómana í þessari röð: **I**, **V**, **vi** og **IV**. Listinn sýnir lög sem nota þennan hljómagang.\n\n1. Finndu þrjú lög á listanum sem þú þekkir.\n2. Skrifaðu nöfnin niður.\n\n**Taktu eftir:** lögin hljóma ólíkt þótt hljómarnir séu þeir sömu.\n\n## 2 · Hugtök\n\n| Hugtak | Enska | Skýring |\n| --- | --- | --- |\n| Hljómur | chord | Þrír eða fleiri tónar sem hljóma saman, t.d. C–E–G. |\n| Dúr | major | Hljómur sem hljómar bjartur og glaður. |\n| Moll | minor | Hljómur sem hljómar dekkri og dapurlegri. |\n| Hljómagangur | chord progression | Röð hljóma sem endurtekur sig, oft fjórir hljómar á fjórum töktum. |\n| Rómverskar tölur | Roman numerals | Sýna hvar hljómurinn stendur í tóntegundinni. Stórir stafir eru dúr, litlir eru moll. Í C-dúr: I = C, IV = F, V = G, vi = Am. |\n| Bassalína | bassline | Dýpsta línan í laginu. Tengir trommurnar við hljómana. |\n| Grunntónn hljóms | root | Tónninn sem hljómurinn heitir eftir. C er grunntónn C-dúr. |\n\n**Hlustunarverkefni: Finndu bassann.** Settu á lag sem þér finnst skemmtilegt og raulaðu með bassanum. Skrifaðu hjá þér: Nafn lagsins og hvort bassinn spilar á sama tíma og bassatromman.\n\n## 3 · Uppskrift af hljómagangi\n\nHakaðu við hvert skref þegar því er lokið. *Vafrinn man hvar þú varst ef þú tekur hlé*.\n\n1. **Heyrum mun á dúr og moll.** Opnaðu [Ableton Learning Music](https://learningmusic.ableton.com) og farðu í kaflann um hljóma (Chords). Spilaðu dúr- og mollhljóma og lýstu muninum með einu orði.\n2. **Setjum upp lagið.** Opnaðu [Song Maker](https://musiclab.chromeexperiments.com/Song-Maker/), smelltu á Settings og veldu: Length **4 bars** · Beats per bar **4** · Split beats into **2** · Scale **Major** · Start on **C, Low** · Range **2 octaves**. Smelltu svo á OK. Neðri áttundin er fyrir bassann, sú efri fyrir hljómana.\n3. **Byrjum á hljómunum.** Settu einn hljóm í hvern takt, í efri áttundinni, á fyrsta reitinn. Smelltu á alla þrjá tónana í sömu lóðréttu röð:\n    - Taktur 1 · **C**: C – E – G\n    - Taktur 2 · **G**: G – H – D\n    - Taktur 3 · **Am**: A – C – E\n    - Taktur 4 · **F**: F – A – C\n4. **Gefðu hljómunum takt.** Prófaðu að setja hljóminn líka á slag **3** í hverjum takti. Veldu það sem þér líkar betur.\n5. **Búum til bassalínu.** Í neðri áttundinni: settu grunntón hvers hljóms á slag **1**: C, G, A, F.\n6. **Látum bassann fylgja trommunum.** Settu bassatóninn líka á reitina þar sem bassatromman lendir í stílnum sem þú valdir í lotu 2.\n7. **Prófaðu moll-útgáfu.** Raðaðu sömu hljómunum svona: **Am – F – C – G**. Hvor útgáfan passar betur við lagið þitt?\n8. **Hlustaðu þrisvar og lagaðu eitt atriði.** Spilaðu lykkjuna þrisvar í röð án þess að breyta neinu. Finndu svo einn hljóm, bassatón eða stað þar sem vantar eitthvað og lagaðu.\n9. **Vistaðu lagið.** Smelltu á **Save** og afritaðu slóðina sem birtist. **Límdu** hana í skjalið þitt og í skilaformið.\n\n## 4 · Áskorun (valfrjálst)\n\nVeldu eina.\n\n- **Létt ·** Finndu annan hljómagang í Hooktheory Trends og búðu hann til í Song Maker.\n- **Miðlungs · Brotnir hljómar.** Spilaðu tóna hljómsins einn í einu (C, E, G, E …) í stað þess að spila þá saman.\n- **Erfitt · Bassinn einn.** Semdu bassalínu sem er svo grípandi að hún virkar án hljómanna. Taktu hljómana út og hlustaðu.\n\n## 5 · Skil og ígrundun\n\n**Sjálfsmat**\n\n- [ ] Hljómagangurinn minn hefur fjóra hljóma, einn í hverjum takti.\n- [ ] Bassinn spilar grunntón hvers hljóms á fyrsta slagi í taktinum.\n- [ ] Ég get sagt hvort lagið byrjar á dúr eða moll.\n\n**Skilaform:** Nafn, Slóð á lagið, Hljómagangurinn skrifaður (t.d. C–G–Am–F), Valdir þú dúr eða moll, og af hverju? · Hvað gerir bassinn fyrir lagið?\n\n## Fyrir kennara\n\n- Hæfni: þríhljómar, dúr og moll, hljómagangur, hlutverk bassans.\n- Lágmarksskil: fjórir hljómar með bassa á grunntóni.\n- Hljómtáknin eru á íslensku (H en ekki B), en Song Maker og Hooktheory nota B.\n- Nemendur sem eiga erfitt með að finna tóna hljómsins geta talið: grunntónn, sleppa einum, næsti, sleppa einum, næsti.\n", "# Lota 4 · Laglína og hook\n\n**Inngangur:** Búum til stutta og grípandi laglínu, hook, yfir hljómagangi.\n\n**Áætlaður tími:** um 3 klst.\n\n**Hvaða forrit/vefsíður notum við:** Online Sequencer\n\n**Hvernig er verkefninu skilað:** slóð eða MIDI-skrá\n\n## Við lok kennslustundar get ég:\n\n- samið stutt mótíf og endurtekið það\n- valið tóna sem passa við hljómana\n- skrifað langar og stuttar nótur í píanórúllu\n\n## 1 · Kveikja\n\nHugsaðu um þrjú lög sem þú getur raulað strax án þess að hlusta á þau.\n\n1. Raulaðu bútinn sem kemur fyrst upp í hugann.\n2. Hve langur er hann? Er hann endurtekinn?\n\n**Taktu eftir:** flest hook eru styttri en fimm sekúndur og eru endurtekin oft.\n\n## 2 · Hugtök\n\n| Hugtak | Enska | Skýring |\n| --- | --- | --- |\n| Mótíf | motif | Stutt hugmynd að laglínu, oft 2–5 nótur. |\n| Hending | phrase | Laglínubútur sem myndar heild, eins og setning í máli. |\n| Hook | hook | Grípandi bútur sem festist í minni. Oftast í viðlagi. |\n| Hljómtónn | chord tone | Tónn sem er í hljómnum sem spilast á sama tíma. Hljómar stöðugur. |\n| Skref og stökk | step & leap | Skref fer í næsta tón, stökk hoppar yfir tóna. |\n| Þögn | rest | Pláss án nótu. Gefur laglínunni tíma til að anda. |\n| Píanórúlla | piano roll | Grid þar sem hæð nótunnar er tónhæð og lengdin er tímalengd. |\n\n**Hlustunarverkefni: Finndu hookið.** Settu á lag sem þér finnst skemmtilegt og finndu hookið. Skrifaðu hjá þér: Nafn lagsins og hve oft hookið kemur fyrir.\n\n## 3 · Uppskrift af hooki\n\nHakaðu við hvert skref þegar því er lokið. *Vafrinn man hvar þú varst ef þú tekur hlé*.\n\n1. **Opnaðu Online Sequencer.** Farðu á [Online Sequencer](https://onlinesequencer.net) og settu á þig heyrnartól. Prófaðu að setja inn nótu, draga hana lengri og eyða henni.\n2. **Setjum upp lagið.** Stilltu hraðann á sama BPM og í lagi þínu úr lotu 1 eða 3.\n3. **Byrjum á hljómunum.** Veldu píanó og skrifaðu inn hljómagang úr lotu 3 (t.d. C–G–Am–F), einn hljóm í takti sem langar nótur.\n4. **Byrjum á takti.** Klappaðu stuttan takt sem passar í tvö slög. Veldu nýtt hljóðfæri og skrifaðu taktinn inn á einn tón (t.d. C).\n5. **Gefðu mótífinu tóna.** Haltu taktinum en breyttu tónunum. Notaðu tóna úr hljómnum á slögum **1** og **3**.\n6. **Endurtaktu og breyttu í lokin.** Láttu mótífið koma fjórum sinnum, einu sinni í hverjum takti. Breyttu fjórða skiptinu. Þarna erum við komin með hook.\n7. **Lagaðu eftir hljómunum.** Ef nóta hljómar illa með hljómi, færðu hana upp eða niður um einn tón.\n8. **Hook-prófið.** Spilaðu lagið tvisvar, lokaðu svo glugganum og bíddu í smá stund. Geturðu raulað hookið? Ef ekki, prófaðu að einfalda það.\n9. **Vistaðu lagið.** Vistaðu og afritaðu slóðina, eða flyttu út MIDI-skrá. **Límdu** slóðina í skjalið þitt og í skilaformið. **Mikilvægt:** geymdu MIDI-skrána, þú notar hana aftur í lotu 7.\n\n## 4 · Áskorun (valfrjálst)\n\nVeldu eina.\n\n- **Létt ·** Afritaðu hookið og settu það áttund ofar með öðru hljóðfæri.\n- **Miðlungs · Mótlaglína.** Semdu aðra laglínu sem hreyfist þegar hookið þegir.\n- **Erfitt · Texti.** Skrifaðu eina línu af texta sem passar við hookið, eitt atkvæði á hverja nótu.\n\n## 5 · Skil og ígrundun\n\n**Sjálfsmat**\n\n- [ ] Hookið mitt byggir á einu mótífi sem er endurtekið.\n- [ ] Nóturnar á slögum 1 og 3 passa við hljómana.\n- [ ] Ég get raulað hookið eftir að hafa lokað glugganum.\n\n**Skilaform:** Nafn, Slóð eða MIDI-skrá, Hvað gerðir þú? · Hvað breyttir þú til að hookið stæðist prófið?\n\n## Fyrir kennara\n\n- Hæfni: mótíf og endurtekning, hljómtónar, nótalengdir.\n- Lágmarksskil: fjórir taktar af laglínu yfir hljómagangi, þar sem mótíf er endurtekið.\n- „Taktur fyrst“ (skref 4) hjálpar nemendum sem festast í að velja tóna.\n- Erfiða áskorunin tengist textagerð; t.d. má nýta *How to Write One Song* eftir Jeff Tweedy.\n", "# Lota 5 · Hljóðhönnun\n\n**Inngangur:** Búum til okkar eigin hljóð með hljóðgervli og notum þau í lagi.\n\n**Áætlaður tími:** um 3 klst.\n\n**Hvaða forrit/vefsíður notum við:** Learning Synths, Noodlerack, BeepBox\n\n**Hvernig er verkefninu skilað:** ein slóð\n\n## Við lok kennslustundar get ég:\n\n- heyrt mun á bylgjuformum\n- notað síu til að gera hljóð bjartara eða dempaðra\n- búið til stutt og langt hljóð með því að breyta stillingum\n- búið til tvö eigin hljóð\n\n## 1 · Kveikja\n\nOpnaðu [Learning Synths](https://learningsynths.ableton.com) og farðu í leiksvæðið (Playground).\n\n1. Búðu til ljótasta hljóð sem þú getur.\n2. Búðu til fallegasta hljóð sem þú getur.\n\n**Taktu eftir:** sami hljóðgervill gaf þér bæði hljóðin. Munurinn liggur í örfáum stillingum.\n\n## 2 · Hugtök\n\n| Hugtak | Enska | Skýring |\n| --- | --- | --- |\n| Hljóðgervill | synthesizer | Hljóðfæri sem býr til hljóð úr rafmerki. |\n| Tóngjafi | oscillator | Býr til grunnhljóðið. |\n| Bylgjuform | waveform | Lögun hljóðsins. **Sínus** er mjúkur, **þríhyrningur** aðeins bjartari, **kassi** holur og tölvuleikjalegur, **sög** björt og sterk. |\n| Sía | filter | Tekur burt hluta af hljóðinu. Getur gert það dempaðra eða bjartara. |\n| Hljóðbreyting (ADSR) | envelope | Hvernig hljóðið byrjar og endar: **A**ttack (hve hratt það kemur), **D**ecay, **S**ustain og **R**elease (hve lengi það ómar eftir). |\n| LFO | low frequency oscillator | Hæg sveifla sem hreyfir aðra stillingu fram og til baka. |\n\n**Fjórar tegundir hljóða:**\n\n| Tegund | Hlutverk | Uppskrift |\n| --- | --- | --- |\n| Bassi | Heldur lagið uppi neðst | Sög eða kassi, sía frekar lág |\n| Lead | Laglínan | Sög eða kassi, sía opin |\n| Pad | Mjúkur bakgrunnur | Langt attack og langt release |\n| Pluck | Stuttir tónar | Attack 0, stutt decay, sustain 0 |\n\n**Hlustunarverkefni: Finndu hljóðin.** Settu á lag sem þér finnst skemmtilegt. Finndu eitt hljóð úr töflunni hér að ofan. Skrifaðu hjá þér: Nafn lagsins og hvaða tegund hljóðs þú fannst.\n\n## 3 · Uppskrift af hljóðum\n\nHakaðu við hvert skref þegar því er lokið. *Vafrinn man hvar þú varst ef þú tekur hlé*.\n\n1. **Opnaðu Learning Synths.** Farðu í gegnum kaflana um tóngjafa, síu, hljóðbreytingu og LFO.\n2. **Berðu saman bylgjuform.** Í leiksvæðinu: spilaðu sama tón með hverju bylgjuformi. Hvert þeirra er mýkst og hvert er hvassast?\n3. **Prófaðu síuna.** Lækkaðu síuna alveg og hækkaðu hana hægt á meðan tónninn spilar. Þetta er notað í mörgum danstónlistarlögum.\n4. **Búum til stutt og langt hljóð.** Stilltu ADSR svo hljóðið verði stutt (pluck). Breyttu henni svo hljóðið læðist inn og deyi hægt út (pad).\n5. **Kíktu í Noodlerack.** Opnaðu [Noodlerack](https://noodlerack.com) og hladdu inn tilbúnu hljóði. Fylgdu snúrunum. Færðu eina snúru eða einn takka og hlustaðu hvað breytist.\n6. **Opnaðu BeepBox.** Farðu á [BeepBox](https://www.beepbox.co). Skrifaðu inn bassalínu í eina rás og laglínu í aðra. Það má vera nýtt eða það sama og í lotum 3 og 4.\n7. **Búum til tvö hljóð.** Breyttu stillingum hljóðfæranna hægra megin: bylgjuform, sía og ADSR. Búðu til eitt **bassahljóð** og eitt **lead-, pad- eða pluck-hljóð**.\n8. **Hlustaðu þrisvar og lagaðu eitt atriði.** Spilaðu lagið þrisvar. Finndu eina stillingu sem má laga og lagaðu.\n9. **Vistaðu lagið.** BeepBox geymir lagið í slóðinni efst í vafranum. Afritaðu hana og **límdu** í skjalið þitt og í skilaformið.\n\n## 4 · Áskorun (valfrjálst)\n\nVeldu eina.\n\n- **Létt ·** Búðu til hljóð sem passar við eitt orð: rigning, vélmenni eða draugur. Láttu einhvern giska.\n- **Miðlungs · Sían opnast.** Láttu hljóð í BeepBox opnast smám saman yfir fjóra takta.\n- **Erfitt · Frá grunni.** Byrjaðu á tómu rekki í Noodlerack og tengdu saman tóngjafa, síu og ADSR sjálf(ur).\n\n## 5 · Skil og ígrundun\n\n**Sjálfsmat**\n\n- [ ] Ég heyri mun á bylgjuformunum.\n- [ ] Ég bjó til tvö eigin hljóð og veit hvaða stillingum ég breytti.\n- [ ] Ég get sagt hvað sían gerir.\n\n**Skilaform:** Nafn, Slóð á lagið, Hvað heita hljóðin þín og hvernig bjóst þú þau til? · Hvaða stilling breytti hljóðinu mest?\n\n## Fyrir kennara\n\n- Hæfni: bylgjuform, sía, ADSR, LFO, hlutverk hljóða í lagi.\n- Lágmarksskil: BeepBox-slóð með tveimur hljóðum sem nemandi hefur breytt.\n- Kveikjan (ljótast og fallegast) gefur góða umræðu um hvað gerir hljóð „fallegt“.\n- Noodlerack er hér til að skoða, ekki til að skila. Hentar þeim sem vilja dýpra.\n", "# Lota 6 · Hljóð úr umhverfinu\n\n**Inngangur:** Tökum upp hljóð heima, klippum þau til og búum til lykkju úr þeim.\n\n**Áætlaður tími:** um 3 klst.\n\n**Hvaða forrit/vefsíður notum við:** Hljóðhringir\n\n**Hvernig er verkefninu skilað:** upptaka af lykkjunni\n\n## Við lok kennslustundar get ég:\n\n- tekið upp hljóð með síma eða tölvu\n- klippt hljóð\n- flokkað hljóð í slagverk, tón og umhverfi\n- búið til lykkju úr eigin hljóðum\n\n## 1 · Kveikja\n\nFinndu þér góðan stað, lokaðu augunum og hlustaðu í eina mínútu.\n\n1. Skrifaðu niður öll hljóð sem þú heyrðir.\n2. Finndu fimm hluti heima sem gefa frá sér skemmtilegt hljóð þegar þú bankar, strýkur eða hristir þá.\n3. Raðaðu hljóðunum í þrjá flokka:\n\n| Slagverk | Tónn | Umhverfi |\n| --- | --- | --- |\n| Stutt og skarpt, t.d. bank á pott | Hljóð með tónhæð, t.d. glas sem hringir | Langt og jafnt, t.d. ísskapur eða rigning |\n\n**Taktu eftir:** slagverkið verður takturinn, tónninn laglínan og umhverfið bakgrunnurinn.\n\n## 2 · Hugtök\n\n| Hugtak | Enska | Skýring |\n| --- | --- | --- |\n| Sample | sample | Upptekinn hljóðbútur sem er notaður sem hljóðfæri. |\n| Klipping | trim | Að skera burt þögn í byrjun og enda. |\n| Fade | fade in / fade out | Hljóðið kemur eða fer smám saman, svo ekki heyrist smellur. |\n| Tónhæðarbreyting | pitch shift | Færir hljóðið upp eða niður. |\n| Afturábak | reverse | Hljóðið spilað aftur á bak. |\n| Bylgjumynd | waveform | Myndin af hljóðinu. Háir toppar eru hávær hljóð, flöt lína er þögn. |\n\n**Hlustunarverkefni: Finndu óvenjuleg hljóð.** Settu á lag sem þér finnst skemmtilegt, með heyrnartólum. Skrifaðu hjá þér: Nafn lagsins og hljóð sem eru ekki venjuleg hljóðfæri.\n\n## 3 · Uppskrift af hljóðlykkju\n\nHakaðu við hvert skref þegar því er lokið. *Vafrinn man hvar þú varst ef þú tekur hlé*.\n\n1. **Opnaðu Hljóðhringi.** Farðu á [Hljóðhringi](https://bjagri.github.io/Hljodvidskolann/) og settu á þig heyrnartól.\n2. **Tökum upp slagverk.** Í flokknum **Slagverk**: taktu upp stutt og skarpt hljóð, t.d. bank á pott. Farðu nálægt hlutnum og veldu hljóðlátan stað. Hlustaðu á upptökuna og taktu aftur upp ef hún er ekki góð.\n3. **Tökum upp tón.** Í flokknum **Tónn**: taktu upp hljóð með tónhæð, t.d. glas sem hringir.\n4. **Tökum upp umhverfi.** Í flokknum **Umhverfi**: taktu upp langt og jafnt hljóð, t.d. ísskáp eða viftu.\n5. **Búum til takt.** Settu slagverkshljóðið í hring og búðu til takt. Notaðu það sem þú lærðir í lotu 2.\n6. **Búum til laglínu.** Settu tóninn í hring og breyttu tónhæðinni með − og + svo þú fáir litla laglínu.\n7. **Stilltu hraða og hljóm.** Veldu hraða og hljóm sem þér líkar. Prófaðu líka **Töfraheima**.\n8. **Hlustaðu þrisvar og lagaðu eitt atriði.** Spilaðu lykkjuna þrisvar. Finndu eitt hljóð eða stað sem má laga og lagaðu.\n9. **Vistaðu lagið.** Taktu upp lagið og vistaðu það. **Mikilvægt:** Hljóðhringir geyma vinnuna í tækinu sem þú notar.\n\n## 4 · Áskorun (valfrjálst)\n\nVeldu eina.\n\n- **Létt ·** Láttu einhvern hlusta á hljóðin þín og giska hvað þau eru.\n- **Miðlungs · Eldhústrommur.** Búðu til bassatrommu, sneril og hi-hat úr eldhúsdóti og settu þá í takt úr lotu 2.\n- **Erfitt · Hljóðmynd.** Búðu til 30 sekúndna hljóðmynd af einum stað, t.d. „Morgunn í eldhúsinu“.\n\n## 5 · Skil og ígrundun\n\n**Sjálfsmat**\n\n- [ ] Ég tók upp þrjú hljóð, eitt úr hverjum flokki.\n- [ ] Hljóðin eru klippt, án þagnar í byrjun og án smells í enda.\n- [ ] Lykkjan mín hefur takt og laglínu úr mínum eigin hljóðum.\n\n**Skilaform:** Nafn, Upptaka af lykkjunni, Hvaða hljóð tókst þú upp? · Hvaða hljóð kom þér mest á óvart?\n\n## Fyrir kennara\n\n- Hæfni: upptaka, klipping, fade, flokkun hljóða eftir hlutverki.\n- Lágmarksskil: lykkja í Hljóðhringjum með þremur eigin hljóðum.\n- Flokkarnir þrír eru þeir sömu og í Hljóðhringjum svo nemandi fer beint úr kveikju í forritið.\n- Minna á að taka ekki upp fólk án leyfis.\n", "# Lota 7 · Form og uppbygging\n\n**Inngangur:** Setjum saman lag með köflum sem byggja upp spennu og losa hana.\n\n**Áætlaður tími:** um 3 klst.\n\n**Hvaða forrit/vefsíður notum við:** Ableton Learning Music, BeepBox eða openDAW\n\n**Hvernig er verkefninu skilað:** formkort og slóð eða skrá\n\n## Við lok kennslustundar get ég:\n\n- Nefnt helstu kafla í lögum\n- Þekkt form lags eftir eyranu\n- Notað fleiri eða færri hljóðfæri til að stýra orku\n- Sett saman einfalt lag með þremur köflum\n\n## 1 · Kveikja\n\nVeldu lag sem þú þekkir vel og hlustaðu með blað og blýant.\n\n1. Gefðu orku lagsins einkunn frá 1 (rólegt) upp í 5 (allt í botni) á 15 sekúndna fresti.\n2. Tengdu punktana saman í línu.\n\n**Taktu eftir:** línan rís og fellur, og hæsti punkturinn kemur oft seint í laginu.\n\n## 2 · Hugtök\n\n| Hugtak | Enska | Skýring |\n| --- | --- | --- |\n| Form | form / structure | Röð kaflanna í laginu. |\n| Forspil | intro | Byrjunin. Oft fá hljóðfæri. |\n| Erindi | verse | Kafli sem segir söguna. |\n| Viðlag | chorus | Aðalkaflinn með hookinu. Mest orka. |\n| Brú | bridge | Kafli sem kemur einu sinni og brýtur upp mynstrið. |\n| Uppbygging | build-up | Kafli sem byggir upp spennu. |\n| Drop | drop | Hápunkturinn í danstónlist. Allt kemur inn í einu. |\n| Outro | outro | Endirinn. |\n\n**Tvö algeng form:**\n\n| Popp | Danstónlist |\n| --- | --- |\n| Forspil → Erindi → Viðlag → Erindi → Viðlag → Outro | Forspil → Uppbygging → Drop → Breakdown → Drop → Outro |\n\n**Hlustunarverkefni: Finndu kaflana.** Hlustaðu aftur á lagið úr kveikjunni. Skrifaðu hjá þér: Tími, kafli og hvað breytist. *Dæmi: 0:00, Forspil, bara píanó.*\n\n## 3 · Uppskrift af formi\n\nHakaðu við hvert skref þegar því er lokið. *Vafrinn man hvar þú varst ef þú tekur hlé*.\n\n1. **Lærum um form.** Opnaðu [Ableton Learning Music](https://learningmusic.ableton.com) og farðu í gegnum kaflann um uppbyggingu laga.\n2. **Veldu form.** Veldu annað forminu hér að ofan, eða styttri útgáfu. Hver kafli er 4 eða 8 taktar.\n3. **Safnaðu efniviðnum.** Taktur (lota 2), hljómar og bassi (lota 3), hook (lota 4), hljóð (lotur 5 og 6). Þú þarft að minnsta kosti þrjá hluta.\n4. **Veldu forrit.** **BeepBox** er auðvelt þar sem hver rás er eitt hljóðfæri og þú getur notað sömu mynstrin aftur og aftur.  \n**[openDAW](https://opendaw.studio)** gefur meira frelsi: þú dregur inn hljóðskrárnar þínar og raðar þeim.\n5. **Byrjum á viðlaginu.** Settu öll hljóðfærin inn í einn kafla. Þetta er hápunkturinn.\n6. **Búum til hina kaflana.** Afritaðu kaflann og taktu hljóðfæri út. Forspil: eitt eða tvö hljóðfæri. Erindi: takturinn og bassinn, en ekki hookið.\n7. **Búum til spennu.** Veldu eitt bragð fyrir hápunktinn: snerilrúlla sem verður þéttari, sía sem opnast, eða þögn í eitt slag rétt áður en viðlagið byrjar.\n8. **Hlustaðu á allt lagið.** Teiknaðu orkulínu. Er hún eins út allt lagið eða rís hún og fellur? Ef hún er flöt, taktu meira út í rólegu köflunum.\n9. **Vistaðu lagið.** BeepBox: afritaðu slóðina. openDAW: flyttu út WAV-skrá. **Límdu** slóðina eða skrána í skilaformið. **Mikilvægt:** openDAW geymir verkefnið í vafranum.\n\n## 4 · Áskorun (valfrjálst)\n\nVeldu eina.\n\n- **Létt ·** Kortleggðu form á lagi í öðrum stíl og berðu saman.\n- **Miðlungs · Brú.** Bættu við brú með nýjum hljóm eða nýju hljóði sem kemur bara einu sinni.\n- **Erfitt · Remix.** Búðu til aðra útgáfu af laginu í hinu forminu.\n\n## 5 · Skil og ígrundun\n\n**Sjálfsmat**\n\n- [ ] Formkortið inniheldur tíma, nöfn á köflum og orkustig.\n- [ ] Lagið mitt hefur að minnsta kosti þrjá ólíka kafla.\n- [ ] Ég bætti við eða tók út hljóðfæri til að stýra orkunni.\n\n**Skilaform:** Nafn, Formkort, Slóð eða skrá, Form lagsins skrifað (t.d. Forspil–Erindi–Viðlag–Outro), Hvar er hápunkturinn?\n\n## Fyrir kennara\n\n- Hæfni: kaflar og form, orka, skiptingar.\n- Lágmarksskil: formkort af lagi + verk með þremur köflum.\n- „Byrjaðu á hápunktinum og taktu út“ (skref 5–6) er auðveldara fyrir byrjendur en að byggja upp frá forspili.\n- BeepBox-leiðin hentar þeim sem eiga ekki hljóðskrár úr fyrri lotum.\n", "# Lota 8 · Effectar\n\n**Inngangur:** Prófum algengustu effectana og heyrum hvernig þeir breyta hljóði.\n\n**Áætlaður tími:** um 3 klst.\n\n**Hvaða forrit/vefsíður notum við:** AudioMass, openDAW\n\n**Hvernig er verkefninu skilað:** tvær hljóðskrár, fyrir og eftir\n\n## Við lok kennslustundar get ég:\n\n- Útskýrt hvað EQ, reverb, delay og distortion gera\n- Stillt delay í takt við lagið\n\n## 1 · Kveikja\n\nOpnaðu [AudioMass](https://audiomass.co) og taktu upp eina setningu, t.d. „Ég heiti … og þetta er lagið mitt.“\n\n1. Settu reverb á hljóðskrána.\n2. Prófaðu ólíkar stillingar. Hljómar þú eins og þú sért í baðherbergi, á tónleikum eða inni í helli?\n\n**Taktu eftir:** þú breyttir engu í röddinni sjálfri, bara rýminu sem hún hljómar í.\n\n## 2 · Hugtök\n\n| Hugtak | Enska | Skýring |\n| --- | --- | --- |\n| Effectar | effect | Vinnsla sem breytir hljóði. |\n| Tónjafnari | EQ | Hækkar eða lækkar bassa, miðju eða diskant. |\n| Reverb | reverb | Endurómur rýmis. Lætur hljóð hljóma stærra og lengra frá. |\n| Delay | delay / echo | Bergmál. Hljóðið endurtekur sig. |\n| Bjögun | distortion | Bjögun. Gerir hljóð grófara. |\n| Chorus | chorus | Lætur eitt hljóð hljóma eins og mörg. |\n\n**Delay í takt:** bergmálið hljómar best þegar það lendir á slagi.\n\n| BPM | Eitt slag | Hálft slag |\n| --- | --- | --- |\n| 90 | 667 ms | 333 ms |\n| 100 | 600 ms | 300 ms |\n| 120 | 500 ms | 250 ms |\n| 140 | 429 ms | 214 ms |\n\n**Hlustunarverkefni: Finndu hvaða effecta.** Settu á lag sem þér finnst skemmtilegt. Skrifaðu hjá þér: Nafn lagsins og eitt hljóð sem hefur reverb eða delay.\n\n## 3 · Uppskrift af áhrifum\n\nHakaðu við hvert skref þegar því er lokið. *Vafrinn man hvar þú varst ef þú tekur hlé*.\n\n1. **Veldu hljóð.** Veldu eina hljóðskrá úr fyrri lotum, t.d. lagið þitt úr BeepBox sem WAV. Opnaðu hana í AudioMass.\n2. **Prófaðu EQ.** Lækkaðu bassann. Nú hljómar það eins og í síma. Prófaðu fleiri stillingar.\n3. **Prófaðu reverb.** Settu fyrst lítið reverb og svo mikið. Finndu staðinn þar sem þú heyrir rýmið en hljóðið verður ekki óskýrt.\n4. **Prófaðu delay í takt.** Finndu BPM lagsins í töflunni og stilltu delay á hálft slag. Prófaðu svo tölu sem er ekki í takti og hlustaðu á muninn.\n5. **Prófaðu distortion.** Settu distortion á bassann eða trommurnar. Byrjaðu lágt og hækkaðu.\n6. **Upp og svo aðeins niður.** Hækkaðu effectana þar til þú heyrir greinilega. Lækkaðu svo aðeins aftur og fínstilltu þar til hljóðheimurinn er jafnari.\n7. **Veldu effecta.** Veldu þá samsetningu af effectum sem passar best við lagið þitt.\n8. **Hlustaðu þrisvar og lagaðu eitt atriði.** Spilaðu bútinn þrisvar. Finndu eitt atriði sem mætti breyta og lagaðu.\n9. **Vistaðu fyrir og eftir.** Vistaðu tvær skrár af sama bútnum: *fyrir.wav* (án effecta) og *eftir.wav* (með effectum).\n\n## 4 · Áskorun (valfrjálst)\n\nVeldu eina.\n\n- **Létt ·** Settu effect á hljóð og láttu einhvern giska hvað er að gerast.\n- **Miðlungs · Afturábak reverb.** Snúðu hljóði við, settu langt reverb og snúðu því svo aftur.\n- **Erfitt · Þrír heimar.** Notaðu effecta til að láta sama bútinn hljóma neðansjávar, í geimnum og á gamalli plötu.\n\n## 5 · Skil og ígrundun\n\n**Sjálfsmat**\n\n- [ ] Ég prófaði EQ, reverb, delay og distortion.\n- [ ] Ég stillti delay í takt við lagið.\n- [ ] Fyrir- og eftir-skrárnar heyrast greinilega ólíkar.\n\n**Skilaform:** Nafn, *fyrir.wav* og *eftir.wav*, Hvaða áhrif notaðir þú og af hverju? · Hvað gerist ef áhrifin eru of mikil?\n\n## Fyrir kennara\n\n- Hæfni: EQ, reverb, delay, distortion, delay í takt.\n- Lágmarksskil: fyrir/eftir-par með stuttum rökstuðningi.\n- Delay-taflan tengir stærðfræði við tónlist: 60 000 ÷ BPM = millisekúndur á slag.\n- „Upp og svo aðeins niður“ reglan kemur í veg fyrir algengustu villuna: of mikið reverb.\n", "# Lota 9 · Hljóðblöndun\n\n**Inngangur:** Blöndum lagið svo öll hljóðin heyrist skýrt, hvert á sínum stað.\n\n**Áætlaður tími:** um 3 klst.\n\n**Hvaða forrit/vefsíður notum við:** openDAW (AudioMass til vara)\n\n**Hvernig er verkefninu skilað:** blönduð hljóðskrá\n\n## Við lok kennslustundar get ég:\n\n- stillt styrk hljóðfæra svo allt heyrist vel\n- Dreift hljóðum til vinstri og hægri\n- Útskýrt hvað þjöppun gerir\n\n## 1 · Kveikja\n\nHlustaðu á uppáhaldslagið þitt með heyrnartólum og lokaðu augunum.\n\n1. Teiknaðu kassa á blað.\n2. Settu hvert hljóðfæri á sinn stað: vinstri eða hægri, ofarlega (bjart) eða neðarlega (djúpt).\n\n**Taktu eftir:** bassatromma, bassi og rödd eru nær alltaf í miðjunni. Annað dreifist til hliðanna.\n\n## 2 · Hugtök\n\n| Hugtak | Enska | Skýring |\n| --- | --- | --- |\n| Blanda | mix | Jafnvægið á milli allra hljóðfæra. |\n| Styrkur | volume | Hve hátt hvert hljóðfæri er. |\n| Desíbel | dB | Eining fyrir styrk. Yfir 0 dB bjagast hljóðið. |\n| Panning | panning | Hvar hljóðið er á milli vinstri og hægri. |\n| Highpass | high-pass filter | Sía sem tekur burt djúpar tíðnir. Gefur bassanum pláss. |\n| Þjöppun | compression | Jafnar styrkinn með því að lækka hæstu toppana. |\n| Sidechain | sidechain | Eitt hljóð lækkar þegar annað spilar, t.d. pad sem víkur fyrir bassatrommunni. |\n\n**Hlustunarverkefni: Finndu staðinn.** Settu á lag sem þér finnst skemmtilegt. Skrifaðu hjá þér: Nafn lagsins og eitt hljóðfæri sem heyrist meira í öðru eyranu.\n\n## 3 · Uppskrift af blöndun\n\nHakaðu við hvert skref þegar því er lokið. *Vafrinn man hvar þú varst ef þú tekur hlé*.\n\n1. **Opnaðu lagið.** Opnaðu lagið þitt úr lotu 7 í [openDAW](https://opendaw.studio).\n2. **Byrjum á núlli.** Lækkaðu alla sleða alveg niður.\n3. **Byrjum á botninum.** Hækkaðu bassatrommuna þar til mælirinn sýnir um −6 dB. Bættu svo bassanum við svo bæði heyrist.\n4. **Bættu við einu í einu.** Snerill, laglína, hljómar. Heyrist nýja hljóðið án þess að taka yfir?\n5. **Dreifðu hljóðunum.** Hafðu bassatrommu, bassa, sneril og laglínu í miðjunni. Færðu hi-hat og hljóma aðeins til hliðanna.\n6. **Gefðu bassanum pláss.** Settu highpass-síu á öll hljóðfæri nema bassatrommu og bassa. Verður bassinn skýrari?\n7. **Prófaðu þjöppun (Compression).** Settu þjöppu á trommurnar. Hlustaðu: verða veiku og sterku höggin jafnari?\n8. **Hvíldu eyrun.** Taktu fimm mínútna hlé. Hlustaðu svo á alla blönduna á lágum styrk og skrifaðu niður þrjú atriði sem má laga og breyttu.\n9. **Vistaðu lagið.** Flyttu út blönduna sem WAV-skrá og settu hana í skilaformið.\n\n## 4 · Áskorun (valfrjálst)\n\nVeldu eina.\n\n- **Létt ·** Hlustaðu á blönduna í heyrnartólum og í síma. Hvað hljómar öðruvísi?\n- **Miðlungs · Tvær blöndur.** Búðu til eina blöndu þar sem trommurnar ráða og aðra þar sem laglínan ræður.\n- **Erfitt · Sidechain.** Láttu hljómana lækka stutt í hvert skipti sem bassatromman slær.\n\n## 5 · Skil og ígrundun\n\n**Sjálfsmat**\n\n- [ ] Blandan bjagast ekki.\n- [ ] Ég heyri bassatrommu, bassa og laglínu skýrt.\n- [ ] Hljóðin eru dreifð til vinstri og hægri.\n\n**Skilaform:** Nafn, Blönduð skrá, Hvar er hvert hljóðfæri í blöndunni? · Hvaða þrjú atriði lagaðir þú eftir hléið?\n\n## Fyrir kennara\n\n- Hæfni: styrkjafnvægi, panning, EQ, þjöppun, gagnrýnin hlustun.\n- Lágmarksskil: blönduð skrá sem bjagast ekki + lýsing á hljóðmynd.\n- Hléið í skrefi 8 er mikilvægt; eyrun venjast fljótt og hætta að heyra vandamál.\n- Ef openDAW reynist erfitt má nota AudioMass til að þjappa og jafna eina hljóðskrá.\n", "# Lota 10 · Frágangur og kynning\n\n**Inngangur:** Göngum frá lagi, gefum því nafn og umslag og lítum yfir það sem við höfum lært.\n\n**Áætlaður tími:** um 3 klst.\n\n**Hvaða forrit/vefsíður notum við:** AudioMass\n\n**Hvernig er verkefninu skilað:** MP3-skrá, umslag og framleiðsludagbók\n\n## Við lok kennslustundar get ég:\n\n- Gengið frá hljóðskrá svo hún sé tilbúin til hlustunar\n- Kynnt lagið mitt með titli og umslagi\n\n## 1 · Kveikja\n\nSpilaðu lagið þitt úr lotu 1. Spilaðu svo nýjasta lagið þitt.\n\n1. Hlustaðu á bæði.\n2. Skrifaðu niður þrjú atriði sem þú getur gert núna en gast ekki í byrjun.\n\n**Taktu eftir:** þú hefur lært meira en þú heldur.\n\n## 2 · Hugtök\n\n| Hugtak | Enska | Skýring |\n| --- | --- | --- |\n| Mastering | mastering | Síðasta vinnslan áður en lagið er gefið út. |\n| Limiter | limiter | Hleypir engu yfir ákveðið mark. Kemur í veg fyrir bjögun. |\n| Normalize | normalize | Hækkar alla skrána svo hæsti toppurinn nái ákveðnu marki. |\n| Fade in / out | fade | Hljóðið kemur inn eða deyr út smám saman. |\n| Umslag | cover art | Myndin sem fylgir laginu. |\n\n**Hlustunarverkefni: Skoðaðu umslög.** Skoðaðu umslög á þremur lögum sem þér finnast skemmtileg. Skrifaðu hjá þér: Hvað eiga þau sameiginlegt?\n\n## 3 · Uppskrift af frágangi\n\nHakaðu við hvert skref þegar því er lokið. *Vafrinn man hvar þú varst ef þú tekur hlé*.\n\n1. **Veldu lagið.** Veldu besta verkið þitt úr áfanganum.\n2. **Opnaðu í AudioMass.** Opnaðu skrána í [AudioMass](https://audiomass.co). Klipptu burt þögn í byrjun og enda.\n3. **Settu fade.** Settu stutt fade in í byrjun. Ef lagið endar of skyndilega, þá settu 2–4 sekúndna fade out.\n4. **Settu limiter.** Settu limiter á alla skrána með markið um −1 dB. Byrjaðu varlega.\n5. **Normalize.** Notaðu normalize á −1 dB.\n6. **Berðu saman.** Spilaðu lag í sama stíl og þitt á sama hljóðstyrk. Er þitt lag lágværara, háværara eða svipað?\n7. **Vistaðu lagið.** Flyttu út MP3-skrá með nafni á forminu *Nafn – Titill.mp3*.\n8. **Titill og umslag.** Gefðu laginu titil og skrifaðu 2–3 setningar um það. Búðu til umslag, t.d. mynd sem þú tókst eða teikningu.\n9. **Framleiðsludagbók.** Gerðu lista yfir öll verkin þín með 1–2 setningum um hvert: hvað ég gerði og hvað ég lærði.\n\n## 4 · Áskorun (valfrjálst)\n\nVeldu eina.\n\n- **Létt ·** Taktu upp 30 sekúndna kynningu þar sem þú segir frá laginu.\n- **Miðlungs · Stutt útgáfa.** Búðu til 30 sekúndna útgáfu sem grípur athygli strax.\n- **Erfitt · Plata.** Settu saman þrjú verk í plötu með nafni, umslagi og röð.\n\n## 5 · Skil og lokaígrundun\n\n**Sjálfsmat**\n\n- [ ] Lagið hljómar vel og er í góðum hljóðstyrk.\n- [ ] Lagið hefur titil og umslag.\n\n**Skilaform:** Nafn, MP3-skrá, Titill og umslag, Framleiðsludagbók, Tvær endurgjafir\n\n**Lokaígrundun:**\n\n1. Hvaða lota var gagnlegust?\n2. Hvað langar þig að læra næst?\n\n## Fyrir kennara\n\n- Hæfni: frágangur hljóðskrár, kynning verks, endurgjöf, ígrundun.\n- Lágmarksskil: frágengin skrá með titli + framleiðsludagbók + tvær endurgjafir.\n- Jafningjaendurgjöf í fjarnámi þarf skipulag: úthluta hverjum nemanda tveimur lögum til að hlusta á.\n- Valfrjálst: sameiginlegur lagalisti á vef áfangans í lokin.\n"]</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+<script>
+(function(){
+'use strict';
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const store={get(k,d){try{const v=localStorage.getItem('tiv:'+k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('tiv:'+k,JSON.stringify(v))}catch(e){}}};
+
+/* ---------- gögn ---------- */
+const LOTUR=JSON.parse(document.getElementById('lotur-data').textContent);
+const PHASE=n=>n<=4?'Efniviðurinn':n<=6?'Hljóðið':n===7?'Formið':'Framleiðslan';
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function parseLota(md,n){
+  const lines=md.split('\n');
+  const title=(lines.find(l=>l.startsWith('# '))||'').replace(/^# /,'');
+  const short=title.replace(/^Lota \d+ · /,'');
+  const meta={};let i=0;
+  for(;i<lines.length;i++){const l=lines[i];if(l.startsWith('## '))break;
+    const m=l.match(/^\*\*(.+?):\*\*\s*(.*)$/);if(m)meta[m[1].trim()]=m[2].trim();}
+  const sections=[];let cur=null;
+  for(;i<lines.length;i++){const l=lines[i];
+    if(l.startsWith('## ')){cur={head:l.slice(3).trim(),body:[]};sections.push(cur)}else if(cur)cur.body.push(l)}
+  sections.forEach(s=>s.body=s.body.join('\n').trim());
+  return {n,title,short,meta,sections};
+}
+const DATA=LOTUR.map((md,i)=>parseLota(md,i+1));
+const metaVal=(d,key)=>{const k=Object.keys(d.meta).find(k=>k.toLowerCase().startsWith(key));return k?d.meta[k]:''};
+
+/* ---------- leiðarkerfi ---------- */
+function route(){
+  const h=(location.hash||'').slice(1);
+  let view='forsida', nav='forsida', lota=null, scrollTo=null;
+  const m=h.match(/^lota-(\d+)$/);
+  if(h==='taktvel'){view='taktvel';nav='taktvel'}
+  else if(m&&DATA[+m[1]-1]){view='lota';nav='lotur';lota=+m[1]}
+  else if(h==='lotur'){scrollTo='units';nav='lotur'}
+  $$('.view').forEach(v=>v.hidden=v.dataset.view!==view);
+  $$('[data-nav]').forEach(a=>{if(a.dataset.nav===nav)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+  if(lota)renderLesson(lota);
+  if(scrollTo){const el=document.getElementById(scrollTo);if(el)el.scrollIntoView()}else window.scrollTo(0,0);
+  if(view!=='taktvel'&&typeof stop==='function'&&playing)stop();
+}
+window.addEventListener('hashchange',route);
+
+/* ---------- forsíða ---------- */
+(function(){let last='';let html='';
+  DATA.forEach(d=>{const ph=PHASE(d.n);if(ph!==last){html+=`<div class="phase">${ph}</div>`;last=ph}
+    const forrit=metaVal(d,'hvaða forrit');const inn=metaVal(d,'inngangur');
+    html+=`<a class="unit unit-link" href="#lota-${d.n}"><span class="num">${String(d.n).padStart(2,'0')}</span><div><h3>${esc(d.short)}</h3><p>${esc(inn)}</p><p class="tools-line">${esc(forrit)}</p></div><span class="pill go">Opna</span></a>`});
+  $('#units').innerHTML=html;
+})();
+
+const TOOLS=[
+ ['Chrome Music Lab Song Maker','https://musiclab.chromeexperiments.com/Song-Maker/','Fyrstu hugmyndirnar, hljómar og bassi','1, 3','Slóð'],
+ ['Patatap','https://patatap.com','Kveikja: hljóð og mynd','1','—'],
+ ['Taktvélin','#taktvel','Trommutaktar eftir stílum','2','Texti'],
+ ['Groove Pizza','https://apps.musedlab.org/groovepizza/','Taktmynstur á hring','2','Hljóðskrá'],
+ ['roland50.studio','https://roland50.studio','TR-808 trommuheili, TB-303 og SH-101','2','—'],
+ ['Hooktheory Trends','https://www.hooktheory.com/trends','Algengir hljómagangar','3','—'],
+ ['Ableton Learning Music','https://learningmusic.ableton.com','Hljómar og uppbygging laga','3, 7','—'],
+ ['Online Sequencer','https://onlinesequencer.net','Píanórúlla, tekur inn MIDI','4','Slóð / MIDI'],
+ ['Learning Synths','https://learningsynths.ableton.com','Grunnatriði hljóðgervla','5','—'],
+ ['Noodlerack','https://noodlerack.com','Modular hljóðgervill með snúrum','5','—'],
+ ['BeepBox','https://www.beepbox.co','Hljóðhönnun og útsetning','5, 7','Slóð'],
+ ['Hljóðhringir','https://bjagri.github.io/Hljodvidskolann/','Upptaka umhverfishljóða í sequencer-hringjum','6','Upptaka'],
+ ['openDAW','https://opendaw.studio','Útsetning, effectar og hljóðblöndun','7–9','WAV'],
+ ['AudioMass','https://audiomass.co','Upptaka, effectar og frágangur','8–10','WAV / MP3']
+];
+$('#toolRows').innerHTML=TOOLS.map(([n,u,w,l,s])=>{
+  const link=`<a href="${u}"${u.startsWith('#')?'':' target="_blank" rel="noopener"'}>${n}</a>`;
+  return `<tr><td>${link}</td><td>${w}</td><td style="white-space:nowrap">${l}</td><td>${s}</td></tr>`}).join('');
+
+/* hero mini grid: rokk/popp */
+(function(){const k=[1,9,11],s=[5,13],h=[1,3,5,7,9,11,13,15];let html='';
+ [['k',k],['s',s],['h',h]].forEach(([c,a])=>{for(let i=1;i<=16;i++)html+=`<span class="${a.includes(i)?c:''}"></span>`});$('#heroMini').innerHTML=html})();
+
+/* ---------- hjálparföll ---------- */
+async function copyText(text,toastEl,fallbackEl){
+  try{await navigator.clipboard.writeText(text);toastEl.textContent='Afritað'}
+  catch(e){if(fallbackEl){const r=document.createRange();r.selectNodeContents(fallbackEl);const s=getSelection();s.removeAllRanges();s.addRange(r)}toastEl.textContent='Textinn er valinn. Ýttu á Ctrl+C (⌘C).'}
+  setTimeout(()=>toastEl.textContent='',3500)}
+
+function mdToHtml(md){
+  md=md.replace(/\[\[([a-z0-9-]+)\]\]/g,'<span class="hook" data-hook="$1"></span>');
+  return (window.marked&&marked.parse)?marked.parse(md,{gfm:true}):'<pre>'+esc(md)+'</pre>';
+}
+
+/* Song Maker dæmi (lota 1) */
+function smGrid(el,rows,cols,fill,headers){
+  el.className='sm';el.style.gridTemplateColumns=`3.2rem repeat(${cols},minmax(0,1fr))`;
+  let h='<div class="lab"></div>';
+  for(let c=0;c<cols;c++) h+=`<div class="c hd">${headers[c]||''}</div>`;
+  rows.forEach((r,ri)=>{h+=`<div class="lab">${r}</div>`;for(let c=0;c<cols;c++){const cls=fill(ri,c);h+=`<div class="c${Math.floor(c/2)%2?' alt':''}${cls?' '+cls:''}"></div>`}});
+  el.innerHTML=h;
+}
+const beatHead=['1','+','2','+','3','+','4','+'];
+const NOTES=['A','G','E','D','C'];
+const QN=[[0,'E'],[2,'G'],[4,'A'],[6,'G'],[8,'E'],[10,'D'],[12,'E']];
+const AN=[[0,'E'],[2,'G'],[4,'A'],[6,'G'],[8,'E'],[10,'D'],[12,'C']];
+const head16=(a,b)=>[...beatHead,...beatHead].map((x,i)=>i===0?a:i===8?b:x==='+'?'':x);
+const HOOKS={
+  'grid-taktur'(host){const w=document.createElement('div');w.className='scroll hook-block';const g=document.createElement('div');w.appendChild(g);
+    smGrid(g,['Hátt','Djúpt'],8,(r,c)=>r===1&&(c===0||c===4)?'lo':r===0&&(c===2||c===6)?'hi':'',beatHead);
+    host.replaceWith(w);w.insertAdjacentHTML('afterend','<p class="sm-cap">Einn taktur. Djúpa hljóðið á slögum 1 og 3, háa hljóðið á slögum 2 og 4.</p>')},
+  'grid-spurning'(host){const w=document.createElement('div');w.className='scroll hook-block';const g=document.createElement('div');w.appendChild(g);
+    smGrid(g,NOTES,16,(r,c)=>{const f=QN.find(q=>q[0]===c&&q[1]===NOTES[r]);return f?(c===12?'m end':'m'):''},head16('T1','T2'));
+    host.replaceWith(w);w.insertAdjacentHTML('afterend','<p class="sm-cap">Spurningin endar á E (gulur reitur), ekki á C.</p>')},
+  'grid-svar'(host){const w=document.createElement('div');w.className='scroll hook-block';const g=document.createElement('div');w.appendChild(g);
+    smGrid(g,NOTES,16,(r,c)=>{const f=AN.find(q=>q[0]===c&&q[1]===NOTES[r]);return f?(c===12?'m end':'m'):''},head16('T3','T4'));
+    host.replaceWith(w);w.insertAdjacentHTML('afterend','<p class="sm-cap">Svarið byrjar eins en endar á C, grunntóninum.</p>')},
+  'taktmaelir'(host){const w=document.createElement('div');w.className='tap';
+    w.innerHTML='<button class="tap-btn" type="button" id="tapBtn">Pikka</button><div><div class="tap-read" id="tapRead" aria-live="polite">— <small>BPM</small></div><p class="muted" id="tapHint" style="font-size:.9rem">Pikkaðu eða ýttu á bilslána.</p></div><button class="btn" type="button" id="tapReset" style="margin-left:auto">Byrja upp á nýtt</button>';
+    host.replaceWith(w);taps=[];
+    $('#tapBtn').addEventListener('click',tap);
+    $('#tapReset').addEventListener('click',()=>{taps=[];$('#tapRead').innerHTML='— <small>BPM</small>';$('#tapHint').textContent='Pikkaðu eða ýttu á bilslána.'})},
+  'taktvel-hnappur'(host){const w=document.createElement('p');w.innerHTML='<a class="btn primary" href="#taktvel">Opna Taktvélina</a>';host.replaceWith(w)}
+};
+
+/* taktmælir */
+let taps=[];
+function tap(){const r=$('#tapRead'),hn=$('#tapHint');if(!r)return;const now=performance.now();if(taps.length&&now-taps.at(-1)>2500)taps=[];taps.push(now);if(taps.length>12)taps.shift();
+  if(taps.length<2){r.innerHTML='… <small>BPM</small>';hn.textContent='Haltu áfram að pikka.';return}
+  const iv=[];for(let i=1;i<taps.length;i++)iv.push(taps[i]-taps[i-1]);const avg=iv.reduce((a,b)=>a+b,0)/iv.length;const bpm=Math.round(60000/avg);
+  r.innerHTML=`${bpm} <small>BPM</small>`;
+  hn.textContent=taps.length<8?`${taps.length} pikk. Nokkur í viðbót gefa nákvæmari tölu.`:bpm<90?'Hægt lag. Algengt í hip hop og ballöðum.':bpm<115?'Miðlungshraði. Algengt í poppi og fönki.':bpm<135?'Hratt. Algengt í house og dansvænu poppi.':'Mjög hratt. Getur líka verið að þú pikkir tvöfalt.';
+}
+document.addEventListener('keydown',e=>{if(e.code==='Space'&&$('#tapBtn')&&!$('[data-view="lota"]').hidden&&!/INPUT|TEXTAREA|BUTTON|SELECT/.test(document.activeElement.tagName)){e.preventDefault();tap()}});
+
+/* skilaform: reitir búnir til úr textanum */
+function skilFields(text){
+  let parts=text.split(/\s·\s|,\s+|(?<=\?)\s+/).map(s=>s.trim()).filter(Boolean);
+  const out=[];
+  parts.forEach(p=>{const low=/^[a-zþæöáéíóúý]/.test(p);if(low&&!p.includes('.')&&out.length)out[out.length-1]+=', '+p;else out.push(p)});
+  return out;
+}
+function buildSkilaform(p,d){
+  const text=p.textContent.replace(/^\s*Skilaform:\s*/,'').trim();
+  const fields=skilFields(text);
+  const wrap=document.createElement('div');wrap.className='form';
+  const key=`l${d.n}-skil`;const saved=store.get(key,{});
+  wrap.innerHTML='<h3>Skilaform</h3><p class="muted">Fylltu út reitina. Textinn neðst raðast saman sjálfkrafa; afritaðu hann og sendu kennaranum.</p>';
+  fields.forEach((f,i)=>{const id=`${key}-${i}`;const isQ=/\?$/.test(f);const isUrl=/^Slóð/i.test(f);
+    const lab=document.createElement('label');lab.htmlFor=id;lab.textContent=f;wrap.appendChild(lab);
+    const el=document.createElement(isQ?'textarea':'input');el.id=id;if(!isQ)el.type=isUrl?'url':'text';if(/^Nafn$/.test(f))el.autocomplete='name';
+    el.value=saved[i]||'';el.dataset.idx=i;wrap.appendChild(el)});
+  const out=document.createElement('div');out.className='out';out.setAttribute('aria-live','polite');wrap.appendChild(out);
+  const row=document.createElement('div');row.className='row';row.innerHTML='<button class="btn primary" type="button">Afrita texta</button><span class="toast" aria-live="polite"></span>';wrap.appendChild(row);
+  const build=()=>{const vals={};let t=`${d.title}\n`;fields.forEach((f,i)=>{const v=(wrap.querySelector(`[data-idx="${i}"]`).value||'').trim();vals[i]=v;t+=/\?$/.test(f)?`\n${f}\n${v||'…'}\n`:`${f}: ${v||'…'}\n`});out.textContent=t.trim();store.set(key,vals)};
+  wrap.addEventListener('input',build);build();
+  row.querySelector('button').addEventListener('click',()=>copyText(out.textContent,row.querySelector('.toast'),out));
+  p.replaceWith(wrap);
+}
+
+/* ---------- lota ---------- */
+function decorate(root,d,sec){
+  root.querySelectorAll('a[href^="http"]').forEach(a=>{a.target='_blank';a.rel='noopener'});
+  root.querySelectorAll('table').forEach(t=>{if(t.parentElement.classList.contains('scroll'))return;const w=document.createElement('div');w.className='scroll';t.classList.add('mdtable');t.replaceWith(w);w.appendChild(t)});
+  root.querySelectorAll(':scope > p').forEach(p=>{const s=p.querySelector('strong');const t=s&&p.firstElementChild===s?s.textContent:'';
+    if(/^Taktu eftir/.test(t))p.classList.add('note');
+    else if(/^Ef eitthvað virkar ekki/.test(t))p.classList.add('note','warn');
+    else if(/^Hlustunarverkefni/.test(t))p.classList.add('listen');
+    else if(/^Skilaform/.test(t))buildSkilaform(p,d);
+    else if(/^(Sjálfsmat|Lokaígrundun)/.test(t))p.classList.add('subhead');});
+  /* sjálfsmat */
+  root.querySelectorAll('ul').forEach(ul=>{if(!ul.querySelector(':scope > li > input[type=checkbox]'))return;
+    const box=document.createElement('div');box.className='selfcheck';
+    [...ul.children].forEach((li,i)=>{const id=`l${d.n}-sc${i}`;const cb=li.querySelector('input');if(cb)cb.remove();
+      const lab=document.createElement('label');lab.innerHTML=`<input type="checkbox" id="${id}"> <span>${li.innerHTML.trim()}</span>`;box.appendChild(lab);
+      const c=lab.querySelector('input');c.checked=store.get(id,false);c.addEventListener('change',()=>store.set(id,c.checked))});
+    ul.replaceWith(box)});
+  /* uppskrift: skref með hökum */
+  if(/^3\s*·/.test(sec.head)){const ol=root.querySelector(':scope > ol');if(ol){ol.classList.add('steps');const key=`l${d.n}-steps`;const st=store.get(key,[]);
+    [...ol.children].forEach((li,i)=>{const strong=li.querySelector(':scope > p > strong, :scope > strong');
+      if(strong&&strong.parentElement.firstElementChild===strong){const h=document.createElement('h3');h.textContent=strong.textContent.replace(/\.$/,'');
+        const parent=strong.parentElement;strong.remove();parent.innerHTML=parent.innerHTML.replace(/^\s+/,'');li.insertBefore(h,li.firstChild)}
+      const lab=document.createElement('label');lab.className='step-done';lab.innerHTML=`<input type="checkbox" id="l${d.n}-st${i}"> Lokið`;li.appendChild(lab);
+      const cb=lab.querySelector('input');cb.checked=!!st[i];li.classList.toggle('done',cb.checked);
+      cb.addEventListener('change',()=>{st[i]=cb.checked;li.classList.toggle('done',cb.checked);store.set(key,st)})})}}
+  /* áskorun: spjöld */
+  if(/^4\s*·/.test(sec.head)){const ul=root.querySelector(':scope > ul');if(ul){const g=document.createElement('div');g.className='tiers';
+    [...ul.children].forEach(li=>{const s=li.querySelector('strong');let lvl='',ttl='';if(s){const parts=s.textContent.split('·');lvl=parts[0].trim();ttl=(parts[1]||'').trim().replace(/\.$/,'');s.remove()}
+      const c=document.createElement('div');c.className='card stack';c.innerHTML=`<span class="lvl">${esc(lvl)}</span>${ttl?`<h3>${esc(ttl)}</h3>`:''}<p>${li.innerHTML.trim()}</p>`;g.appendChild(c)});
+    ul.replaceWith(g)}}
+  /* krókar */
+  root.querySelectorAll('.hook').forEach(h=>{const f=HOOKS[h.dataset.hook];if(f)f(h);else h.remove()});
+}
+
+function renderLesson(n){
+  const d=DATA[n-1], host=$('#lesson');
+  const inn=metaVal(d,'inngangur'),tim=metaVal(d,'áætlaður'),forrit=metaVal(d,'hvaða forrit'),skil=metaVal(d,'hvernig er');
+  const goals=d.sections.find(s=>/^Við lok/i.test(s.head));
+  const parts=d.sections.filter(s=>/^\d\s*·/.test(s.head));
+  const teacher=d.sections.find(s=>/kennara/i.test(s.head));
+  host.innerHTML=`
+    <div class="lesson-head read">
+      <p class="eyebrow">Lota ${n} af ${DATA.length} · ${PHASE(n)}</p>
+      <h1>${esc(d.short)}</h1>
+      <p class="lead2">${esc(inn)}</p>
+      <div class="meta">${tim?`<span><b>Tími</b> ${esc(tim)}</span>`:''}${forrit?`<span><b>Forrit</b> ${esc(forrit)}</span>`:''}${skil?`<span><b>Skil</b> ${esc(skil)}</span>`:''}</div>
+      <nav class="toc" aria-label="Hlutar lotunnar">${parts.map((s,i)=>`<button type="button" data-go="sec-${i}">${esc(s.head.replace(/\s*\(.*\)$/,''))}</button>`).join('')}</nav>
+    </div>
+    ${goals?`<section class="read stack"><h3>${esc(goals.head)}</h3><div class="goalsmd">${mdToHtml(goals.body)}</div></section>`:''}
+    ${parts.map((s,i)=>{const wide=/^3\s*·/.test(s.head)||/^4\s*·/.test(s.head);
+      return `<section class="part${wide?'':' read'}" id="sec-${i}"><div class="part-head${wide?' read':''}"${wide?' style="max-width:none"':''}><h2>${esc(s.head)}</h2></div><div class="md${wide?'':''}" data-sec="${i}">${mdToHtml(s.body)}</div></section>`}).join('')}
+    <section class="read stack">
+      ${teacher?`<details class="teacher"><summary>${esc(teacher.head)}</summary><div class="md">${mdToHtml(teacher.body)}</div></details>`:''}
+      <div class="row" style="justify-content:space-between">
+        ${n>1?`<a class="btn" href="#lota-${n-1}">← Lota ${n-1}</a>`:'<a class="btn" href="#forsida">← Yfirlit</a>'}
+        ${n<DATA.length?`<a class="btn primary" href="#lota-${n+1}">Lota ${n+1}: ${esc(DATA[n].short)} →</a>`:'<a class="btn primary" href="#forsida">Aftur á yfirlit</a>'}
+      </div>
+    </section>`;
+  const ul=host.querySelector('.goalsmd ul');if(ul)ul.classList.add('goals');
+  parts.forEach((s,i)=>{const r=host.querySelector(`[data-sec="${i}"]`);decorate(r,d,s)});
+  host.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{const el=document.getElementById(b.dataset.go);if(el)el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})}));
+}
+
+/* ---------- taktvél ---------- */
+const ROWS=[{id:'kick',name:'Bassatromma',cls:'k',color:'var(--kick)'},{id:'snare',name:'Snerill / klapp',cls:'s',color:'var(--snare)'},{id:'hat',name:'Lokuð hi-hat',cls:'h',color:'var(--hat)'},{id:'open',name:'Opin hi-hat',cls:'o',color:'var(--open)'}];
+const P=(s)=>s?s.split(' ').map(Number):[];
+const PRESETS=[
+ {id:'rokk',name:'Rokk / popp',bpm:116,swing:0,kick:'1 9 11',snare:'5 13',hat:'1 3 5 7 9 11 13 15',open:'',ghost:'',
+  info:'Backbeat: snerillinn á slögum 2 og 4. Bassatromman á 1 og 3, með einu aukaslagi rétt fyrir slag 4.',listen:'Klappaðu á 2 og 4. Ef það passar við snerilinn ertu kominn með backbeat.'},
+ {id:'funk',name:'Funk',bpm:104,swing:0,kick:'1 4 11',snare:'5 13',hat:'1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16',open:'',ghost:'8 10 16',
+  info:'Sextándupartar á hi-hat og draugaslög: veik snerilslög á milli sterku slaganna. Bassatromman lendir á óvæntum stöðum.',listen:'Heyrir þú veiku slögin á snerlinum? Taktu þau út og hlustaðu á muninn.'},
+ {id:'disco',name:'Disco',bpm:120,swing:0,kick:'1 5 9 13',snare:'5 13',hat:'1 5 9 13',open:'3 7 11 15',ghost:'',
+  info:'Bassatromma á öllum fjórum slögunum og opin hi-hat á milli þeirra. Það er þetta „tss“ á milli slaga sem dregur fólk út á gólfið.',listen:'Segðu „bumm-tss-bumm-tss“ með taktinum.'},
+ {id:'house',name:'House',bpm:124,swing:0,kick:'1 5 9 13',snare:'5 13',hat:'',open:'3 7 11 15',ghost:'',
+  info:'Four-on-the-floor: bassatromma á hverju slagi. Klapp á 2 og 4, opin hi-hat á millislögum. Afkomandi disco.',listen:'Berðu saman við disco. Hvað er líkt og hvað er ólíkt?'},
+ {id:'boombap',name:'Hip hop',bpm:90,swing:30,kick:'1 8 11',snare:'5 13',hat:'1 3 5 7 9 11 13 15',open:'',ghost:'',
+  info:'Boom bap: þung bassatromma („boom“) og harður snerill („bap“). Sveifla gerir það að verkum að takturinn rúllar í stað þess að tikka.',listen:'Færðu sveifluna upp og niður og finndu staðinn sem þér líkar best.'},
+ {id:'trap',name:'Trap',bpm:140,swing:0,kick:'1 11',snare:'9',hat:'1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16',open:'',ghost:'',
+  info:'Half-time: snerillinn kemur bara einu sinni í takti, á slagi 3. Þess vegna finnst takturinn hægur þótt hi-hattarnir hlaupi hratt.',listen:'Klappaðu með snerlinum. Hvaða BPM myndi pikkmælirinn gefa?'},
+ {id:'dembow',name:'Reggaeton',bpm:95,swing:0,kick:'1 5 9 13',snare:'4 7 12 15',hat:'1 3 5 7 9 11 13 15',open:'',ghost:'',
+  info:'Dembow: bassatromma á hverju slagi og snerill sem skiptir taktinum í 3 + 3 + 2. Kemur upphaflega frá Jamaíku og Panama.',listen:'Teldu snerilinn: „1-2-3, 1-2-3, 1-2“. Heyrir þú mynstrið?'},
+ {id:'dnb',name:'Drum and bass',bpm:172,swing:0,kick:'1 11',snare:'5 13',hat:'1 3 5 7 9 11 13 15',open:'',ghost:'',
+  info:'Hratt two-step mynstur. Sama grind og hip hop, en næstum tvöfalt hraðar.',listen:'Prófaðu að lækka hraðann niður í 90. Hljómar það þá eins og hip hop?'},
+ {id:'lofi',name:'Lo-fi',bpm:80,swing:35,kick:'1 8 11',snare:'5 13',hat:'1 3 5 7 9 11 13 15',open:'',ghost:'',
+  info:'Hægur, mjúkur hip hop-taktur með mikilli sveiflu. Hljóðin eru yfirleitt dempuð og örlítið óhrein.',listen:'Hvað þarf að breyta til að hip hop-takturinn verði lo-fi?'}
+];
+let pat={kick:Array(16).fill(0),snare:Array(16).fill(0),hat:Array(16).fill(0),open:Array(16).fill(0)};
+let current=null, masked=false;
+
+const seq=$('#seq');
+function buildGrid(){
+  let h='<div></div>';
+  for(let i=1;i<=16;i++) h+=`<div class="hd${(i-1)%4===0?' b':''}">${(i-1)%4===0?(i-1)/4+1:i}</div>`;
+  ROWS.forEach(r=>{
+    h+=`<div class="rl"><i style="background:${r.color}"></i>${r.name}</div>`;
+    for(let i=0;i<16;i++) h+=`<button type="button" class="cell ${r.cls}${Math.floor(i/4)%2===0?' beat':''}" data-row="${r.id}" data-i="${i}" data-v="0" aria-label="${r.name}, reitur ${i+1}"></button>`;
+  });
+  seq.innerHTML=h;
+}
+buildGrid();
+const cellEls={};ROWS.forEach(r=>cellEls[r.id]=$$(`.cell[data-row="${r.id}"]`));
+function paint(){ROWS.forEach(r=>cellEls[r.id].forEach((c,i)=>{c.dataset.v=pat[r.id][i];c.setAttribute('aria-pressed',pat[r.id][i]?'true':'false')}));seq.classList.toggle('masked',masked)}
+seq.addEventListener('click',e=>{const c=e.target.closest('.cell');if(!c)return;if(masked){$('#quizMsg').textContent='Giskaðu fyrst, þá birtist takturinn.';return}
+  const r=c.dataset.row,i=+c.dataset.i;pat[r][i]=(pat[r][i]+1)%3;paint();
+  if(current){current=null;markStyle();showInfo(null)}
+  ensureCtx();if(!playing)hit(r,ctx.currentTime+0.01,pat[r][i]===2?0.35:1)});
+
+function load(p){ROWS.forEach(r=>pat[r.id]=Array(16).fill(0));
+  P(p.kick).forEach(i=>pat.kick[i-1]=1);P(p.snare).forEach(i=>pat.snare[i-1]=1);P(p.ghost).forEach(i=>pat.snare[i-1]=2);
+  P(p.hat).forEach(i=>pat.hat[i-1]=1);P(p.open).forEach(i=>pat.open[i-1]=1);
+  setBpm(p.bpm);setSwing(p.swing);paint()}
+const stylesEl=$('#styles');
+stylesEl.innerHTML=PRESETS.map(p=>`<button type="button" data-id="${p.id}" aria-pressed="false">${p.name}</button>`).join('');
+function markStyle(){$$('#styles button').forEach(b=>b.setAttribute('aria-pressed',current&&b.dataset.id===current.id?'true':'false'))}
+function showInfo(p){
+  $('#styleInfo').innerHTML=p?`<p class="eyebrow">${p.bpm} BPM${p.swing?` · sveifla ${p.swing}%`:''}</p><h3>${p.name}</h3><p>${p.info}</p><p class="note" style="font-size:.95rem"><b>Hlustaðu:</b> ${p.listen}</p>`
+   :`<p class="eyebrow">Þinn taktur</p><h3>Eigin útgáfa</h3><p>Þú hefur breytt taktinum. Hlustaðu: hljómar hann enn eins og stíllinn, eða er hann orðinn eitthvað nýtt?</p>`}
+stylesEl.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(masked)endQuiz();current=PRESETS.find(p=>p.id===b.dataset.id);load(current);markStyle();showInfo(current)});
+
+/* sliders */
+const bpmEl=$('#bpm'),swEl=$('#swing');
+function setBpm(v){bpmEl.value=v;$('#bpmOut').textContent=v+' BPM'}
+function setSwing(v){swEl.value=v;$('#swingOut').textContent=v+'%'}
+bpmEl.addEventListener('input',()=>setBpm(+bpmEl.value));
+swEl.addEventListener('input',()=>setSwing(+swEl.value));
+$('#clearBtn').addEventListener('click',()=>{if(masked)endQuiz();ROWS.forEach(r=>pat[r.id].fill(0));current=null;markStyle();showInfo(null);paint()});
+
+/* audio */
+let ctx=null,master=null,noise=null,lastOpen=null;
+function ensureCtx(){if(ctx){if(ctx.state==='suspended')ctx.resume();return}
+  ctx=new (window.AudioContext||window.webkitAudioContext)();
+  const comp=ctx.createDynamicsCompressor();comp.threshold.value=-10;comp.ratio.value=4;
+  master=ctx.createGain();master.gain.value=0.8;master.connect(comp);comp.connect(ctx.destination);
+  noise=ctx.createBuffer(1,ctx.sampleRate,ctx.sampleRate);const d=noise.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}
+function env(g,t,v,len){g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(v,0.0002),t+0.002);g.gain.exponentialRampToValueAtTime(0.0001,t+len)}
+function noiseHit(t,v,len,type,freq){const s=ctx.createBufferSource();s.buffer=noise;const f=ctx.createBiquadFilter();f.type=type;f.frequency.value=freq;const g=ctx.createGain();env(g,t,v,len);s.connect(f);f.connect(g);g.connect(master);s.start(t);s.stop(t+len+0.05);return g}
+function hit(row,t,v){
+  if(row==='kick'){const o=ctx.createOscillator(),g=ctx.createGain();o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(45,t+0.14);env(g,t,v*1.0,0.42);o.connect(g);g.connect(master);o.start(t);o.stop(t+0.5)}
+  else if(row==='snare'){noiseHit(t,v*0.55,0.19,'highpass',1300);const o=ctx.createOscillator(),g=ctx.createGain();o.type='triangle';o.frequency.setValueAtTime(200,t);o.frequency.exponentialRampToValueAtTime(150,t+0.08);env(g,t,v*0.35,0.1);o.connect(g);g.connect(master);o.start(t);o.stop(t+0.15)}
+  else if(row==='hat'){if(lastOpen){lastOpen.gain.cancelScheduledValues(t);lastOpen.gain.setTargetAtTime(0.0001,t,0.01);lastOpen=null}noiseHit(t,v*0.28,0.05,'highpass',7500)}
+  else if(row==='open'){lastOpen=noiseHit(t,v*0.24,0.34,'highpass',7000)}
+}
+let playing=false,timer=null,step=0,nextT=0,queue=[],raf=null;
+function schedule(){const sixteenth=60/(+bpmEl.value)/4;
+  while(nextT<ctx.currentTime+0.12){const off=step%2?(+swEl.value/100)*sixteenth*0.66:0,t=nextT+off;
+    ROWS.forEach(r=>{const v=pat[r.id][step];if(v)hit(r.id,t,v===2?0.35:1)});queue.push({step,t});
+    nextT+=sixteenth;step=(step+1)%16}}
+function draw(){if(!playing)return;let s=null;while(queue.length&&queue[0].t<=ctx.currentTime){s=queue.shift().step}
+  if(s!==null){$$('.cell.now').forEach(c=>c.classList.remove('now'));ROWS.forEach(r=>cellEls[r.id][s].classList.add('now'))}raf=requestAnimationFrame(draw)}
+const ICON_PLAY='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>',ICON_STOP='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>';
+const playBtn=$('#playBtn');playBtn.innerHTML=ICON_PLAY;
+function start(){ensureCtx();playing=true;step=0;nextT=ctx.currentTime+0.06;queue=[];schedule();timer=setInterval(schedule,25);draw();playBtn.innerHTML=ICON_STOP;playBtn.setAttribute('aria-label','Stöðva')}
+function stop(){playing=false;clearInterval(timer);cancelAnimationFrame(raf);$$('.cell.now').forEach(c=>c.classList.remove('now'));playBtn.innerHTML=ICON_PLAY;playBtn.setAttribute('aria-label','Spila')}
+playBtn.addEventListener('click',()=>playing?stop():start());
+
+/* quiz */
+let qs=store.get('quiz',{right:0,total:0}),answer=null,answered=false;
+const scoreEl=$('#score');function showScore(){scoreEl.textContent=`${qs.right} / ${qs.total} rétt`}showScore();
+function endQuiz(){masked=false;answer=null;$('#quizOpts').innerHTML='';paint()}
+$('#quizBtn').addEventListener('click',()=>{
+  const pool=PRESETS.filter(p=>!answer||p.id!==answer.id);answer=pool[Math.floor(Math.random()*pool.length)];answered=false;
+  masked=true;current=null;load(answer);markStyle();
+  $('#styleInfo').innerHTML='<p class="eyebrow">Leyndur taktur</p><h3>Hlustaðu vel</h3><p>Hvar lendir bassatromman? Hvar lendir snerillinn? Er sveifla í taktinum?</p>';
+  const others=PRESETS.filter(p=>p.id!==answer.id).sort(()=>Math.random()-.5).slice(0,3);
+  const opts=[answer,...others].sort(()=>Math.random()-.5);
+  $('#quizOpts').innerHTML=opts.map(o=>`<button type="button" data-id="${o.id}">${o.name}</button>`).join('');
+  $('#quizMsg').textContent='';if(!playing)start()});
+$('#quizOpts').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||!answer||answered)return;answered=true;qs.total++;
+  const ok=b.dataset.id===answer.id;if(ok)qs.right++;store.set('quiz',qs);showScore();
+  $$('#quizOpts button').forEach(x=>{if(x.dataset.id===answer.id)x.classList.add('right');else if(x===b)x.classList.add('wrong')});
+  $('#quizMsg').textContent=ok?`Rétt! Þetta var ${answer.name}.`:`Ekki alveg. Þetta var ${answer.name}. Skoðaðu gridið og berðu saman.`;
+  masked=false;current=answer;markStyle();showInfo(answer);paint()});
+
+/* export / import */
+const PFX={kick:'BT',snare:'SN',hat:'LH',open:'OH'};
+function toText(){const sym=['.','x','o'];
+  const lines=ROWS.map(r=>{const s=pat[r.id].map(v=>sym[v]).join('');return `${PFX[r.id]}: ${s.slice(0,4)}|${s.slice(4,8)}|${s.slice(8,12)}|${s.slice(12)}`});
+  return `Taktvélin · ${bpmEl.value} BPM · sveifla ${swEl.value}%${current?' · '+current.name:''}\n${lines.join('\n')}\nBT=bassatromma SN=snerill LH=lokuð hi-hat OH=opin hi-hat · x=fullt o=veikt`}
+$('#exportBtn').addEventListener('click',()=>copyText(toText(),$('#exportToast'),null));
+$('#importBtn').addEventListener('click',()=>{const t=$('#importText').value;let n=0;
+  ROWS.forEach(r=>{const m=t.match(new RegExp(PFX[r.id]+':\\s*([.xXoO|]+)'));if(m){const s=m[1].replace(/\|/g,'').toLowerCase();if(s.length===16){pat[r.id]=[...s].map(c=>c==='x'?1:c==='o'?2:0);n++}}});
+  const b=t.match(/(\d{2,3})\s*BPM/i);if(b)setBpm(Math.min(180,Math.max(60,+b[1])));const sw=t.match(/sveifla\s*(\d+)/i);if(sw)setSwing(Math.min(60,+sw[1]));
+  if(masked)endQuiz();current=null;markStyle();paint();
+  $('#importToast').textContent=n?`${n} raðir hlaðnar inn`:'Fann engan takt. Límdu inn textann eins og hann var afritaður.';if(n)showInfo(null);setTimeout(()=>$('#importToast').textContent='',3500)});
+
+/* init */
+current=PRESETS[0];load(current);markStyle();showInfo(current);
+route();
+})();
+</script>
