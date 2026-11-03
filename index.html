@@ -350,6 +350,79 @@ details.dm-save summary{cursor:pointer;font-weight:600}
 .pc-t{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}.pc-t b{font-size:1.02rem}.pc-t small{color:var(--muted);font-size:.86rem;line-height:1.35}
 .pc-go{color:var(--muted);font-size:1.2rem;transition:transform .15s}.pc-unit:hover .pc-go{transform:translateX(3px);color:var(--ink)}
 @media (max-width:760px){.phase-card{padding:24px 20px;border-radius:30px}.pc-head{grid-template-columns:1fr}.pc-art{width:150px;order:-1}}
+/* ---- lotusíður (í stíl forsíðunnar) ---- */
+#lesson .lhero{--c:var(--accent);background:linear-gradient(160deg,color-mix(in srgb,var(--c) 22%,var(--surface)),color-mix(in srgb,var(--accent) 8%,var(--surface)));border-radius:40px;padding:38px 40px;box-shadow:0 20px 50px -28px color-mix(in srgb,var(--c) 70%,transparent),0 2px 0 var(--line)}
+#lesson .lhero::after{content:"";position:absolute;right:-90px;bottom:-130px;width:340px;height:340px;border-radius:44% 56% 61% 39%/42% 44% 56% 58%;background:color-mix(in srgb,var(--c) 20%,transparent);pointer-events:none}
+#lesson .lhero>*{position:relative;z-index:1}
+#lesson .lhero-num{background:var(--c);box-shadow:0 5px 0 color-mix(in srgb,var(--c) 60%,#000)}
+#lesson .lhero h1{font-size:clamp(2rem,5vw,3.4rem);line-height:1.05;letter-spacing:-.02em}
+#lesson .lhero-art{position:absolute!important;right:34px;top:30px;width:180px;color:var(--ink);opacity:.9;z-index:1}
+#lesson .lhero-art svg{width:100%;height:auto;display:block}
+#lesson .lhero-txt{padding-right:200px}
+@media (max-width:900px){#lesson .lhero-art{display:none}#lesson .lhero-txt{padding-right:0}}
+@media (max-width:640px){#lesson .lhero{padding:26px 20px;border-radius:30px}}
+#lesson .band{border-radius:40px;background:linear-gradient(170deg,color-mix(in srgb,var(--c) 13%,var(--surface)),color-mix(in srgb,var(--c) 5%,var(--surface)));box-shadow:0 -6px 30px -18px rgba(0,0,0,.16),0 2px 0 var(--line)}
+@media (max-width:640px){#lesson .band{border-radius:30px}}
+.next-card{--c:var(--accent);display:flex;align-items:center;gap:20px;padding:26px 28px;border-radius:36px;text-decoration:none;color:var(--ink);background:linear-gradient(160deg,color-mix(in srgb,var(--c) 24%,var(--surface)),color-mix(in srgb,var(--c) 10%,var(--surface)));box-shadow:0 2px 0 var(--line);position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.next-card::after{content:"";position:absolute;right:-60px;top:-70px;width:200px;height:200px;border-radius:44% 56% 61% 39%/42% 44% 56% 58%;background:color-mix(in srgb,var(--c) 22%,transparent)}
+.next-card:hover{transform:translateY(-3px);box-shadow:0 8px 0 color-mix(in srgb,var(--c) 40%,var(--line))}
+.nc-num{width:64px;height:64px;flex:none;border-radius:50%;display:grid;place-items:center;background:var(--c);color:#fff;font-family:var(--f-display);font-weight:700;font-size:1.8rem;position:relative;z-index:1}
+.nc-t{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0;position:relative;z-index:1}
+.nc-t small{text-transform:uppercase;letter-spacing:.06em;font-size:.75rem;color:var(--muted);font-weight:600}.nc-t b{font-size:1.4rem;line-height:1.2}.nc-t span{color:var(--muted)}
+.nc-go{font-size:1.8rem;position:relative;z-index:1;transition:transform .2s}.next-card:hover .nc-go{transform:translateX(5px)}
+.lfoot .linkbtn{text-decoration:none;color:var(--muted);font-weight:500}.lfoot .linkbtn:hover{color:var(--ink)}
+@media (max-width:560px){.next-card{padding:20px;gap:14px}.nc-num{width:48px;height:48px;font-size:1.3rem}.nc-t b{font-size:1.15rem}.nc-go{display:none}}
+#lesson .band-goals{background:var(--surface);box-shadow:none}
+/* ---- glósubók ---- */
+.gb-wrap{max-width:780px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:22px}
+.gb-head{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.gb-head h1{font-size:clamp(2.2rem,5vw,3.2rem);letter-spacing:-.02em;margin:0}
+.gb-stats{margin:6px 0 0}
+.gb-set{position:relative}
+.gb-gear{width:48px;height:48px;border-radius:50%;border:none;background:var(--surface);color:var(--muted);box-shadow:0 2px 0 var(--line);cursor:pointer;display:grid;place-items:center;transition:transform .35s cubic-bezier(.3,1.4,.5,1),color .2s}
+.gb-gear:hover,.gb-gear.on{color:var(--ink);transform:rotate(60deg)}
+.gb-menu{position:absolute;right:0;top:58px;z-index:30;width:280px;background:var(--surface);border-radius:22px;padding:8px;box-shadow:0 18px 40px rgba(0,0,0,.18),0 0 0 1px var(--line);display:flex;flex-direction:column;animation:menuIn .22s cubic-bezier(.2,.8,.3,1.1);transform-origin:top right}
+.gb-menu[hidden]{display:none}
+@keyframes menuIn{from{opacity:0;transform:scale(.92) translateY(-6px)}to{opacity:1;transform:none}}
+.gb-menu button[role=menuitem]{font:inherit;text-align:left;border:none;background:none;padding:11px 12px;border-radius:14px;cursor:pointer;display:flex;align-items:center;gap:10px;color:var(--ink)}
+.gb-menu button[role=menuitem]:hover{background:var(--tint)}
+.gb-menu .gi{width:24px;text-align:center;color:var(--muted);font-weight:700}
+.gb-menu .danger{color:#B1440F}.gb-menu .danger .gi{color:#B1440F}
+.gb-menu hr{border:none;border-top:1px solid var(--line);margin:4px 8px}
+.gb-note{font-size:.8rem;color:var(--muted);margin:6px 12px 6px}
+.gb-menu .gb-confirm{margin:4px}
+.gb-paper{position:relative;background:var(--surface);border-radius:32px;padding:34px 40px 40px 64px;box-shadow:0 24px 60px -30px rgba(39,48,107,.35),0 2px 0 var(--line);min-height:440px;display:flex;flex-direction:column;gap:30px}
+.gb-paper::before{content:"";position:absolute;left:42px;top:24px;bottom:24px;width:2px;background:color-mix(in srgb,var(--accent) 35%,transparent);border-radius:2px}
+.gb-paper textarea{width:100%;border:none;outline:none;resize:none;background:repeating-linear-gradient(transparent 0 31px,color-mix(in srgb,var(--ink) 9%,transparent) 31px 32px);line-height:32px;font:inherit;font-size:1.05rem;color:var(--ink);padding:0;min-height:84px;overflow:hidden;box-shadow:none;border-radius:0}
+.gb-paper textarea::placeholder{color:color-mix(in srgb,var(--muted) 70%,transparent)}
+.gb-paper.blank textarea{font-size:1.15rem}
+.gb-sec{display:flex;flex-direction:column;gap:6px}
+.gb-sec.new{animation:secIn .5s cubic-bezier(.2,.8,.3,1)}
+@keyframes secIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.gb-h{display:flex;align-items:center;gap:12px;margin:0;font-size:1.15rem}
+.gb-num{width:34px;height:34px;flex:none;border-radius:50%;display:grid;place-items:center;background:var(--c);color:#fff;font-family:var(--f-display);font-weight:700;font-size:1rem;margin-left:-50px;box-shadow:0 0 0 5px var(--surface)}
+.gb-dot{width:14px;height:14px;border-radius:50%;background:var(--c);margin-left:-40px;margin-right:12px;box-shadow:0 0 0 5px var(--surface)}
+.gb-ht{display:flex;flex-direction:column;flex:1;line-height:1.2}.gb-ht small{font-size:.78rem;color:var(--muted);font-weight:500;margin-top:2px}
+.gb-open{font-size:.85rem;color:var(--muted);text-decoration:none;font-weight:500;white-space:nowrap;opacity:0;transition:opacity .2s}
+.gb-sec:hover .gb-open,.gb-sec:focus-within .gb-open{opacity:1}
+@media (hover:none){.gb-open{opacity:1}}
+.gb-hint{margin:6px 0 0;color:var(--muted);font-size:.92rem}
+.gb-foot{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;min-height:44px}
+.gb-add-wrap{display:flex;flex-direction:column;gap:10px;flex:1}
+.gb-add{align-self:flex-start;font:inherit;font-weight:600;border:2px dashed color-mix(in srgb,var(--accent) 45%,transparent);background:transparent;color:var(--accent);border-radius:999px;padding:9px 18px;cursor:pointer;transition:background .2s,border-color .2s}
+.gb-add:hover{background:var(--accent-soft);border-color:var(--accent)}
+.gb-pick{background:var(--surface);border-radius:22px;padding:14px 16px;box-shadow:0 2px 0 var(--line);animation:menuIn .22s cubic-bezier(.2,.8,.3,1.1);transform-origin:top left}
+.gb-pick p{margin:0 0 10px}
+.gb-chips{display:flex;flex-wrap:wrap;gap:6px}
+.gb-chips button{font:inherit;font-size:.9rem;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;border-radius:999px;background:color-mix(in srgb,var(--c) 14%,var(--surface));color:var(--ink);transition:transform .15s}
+.gb-chips button:hover{transform:translateY(-2px)}
+.gb-chips i{font-style:normal;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--c);color:#fff;font-weight:700;font-size:.8rem}
+.gb-saved-dot{font-size:.85rem;color:var(--good);font-weight:600;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;padding-top:10px}
+.gb-saved-dot:not(:empty)::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--good)}
+.gb-saved-dot.pulse{animation:savedIn .3s ease}
+@keyframes savedIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (max-width:560px){.gb-paper{padding:24px 18px 28px 44px;border-radius:24px}.gb-paper::before{left:28px}.gb-num{margin-left:-34px;width:28px;height:28px;font-size:.85rem}.gb-dot{margin-left:-24px}}
+@media (prefers-reduced-motion:reduce){.gb-menu,.gb-pick,.gb-sec.new,.gb-saved-dot.pulse{animation:none}.gb-gear{transition:none}}
 /* ---- hreyfing ---- */
 .rv{opacity:0;transform:translateY(22px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1)}
 .rv.in{opacity:1;transform:none}
@@ -520,7 +593,6 @@ ol.steps>li.pop{animation:stepPop .45s cubic-bezier(.3,1.6,.5,1)}
 .gb-dh h3{margin:0}
 .gb-drawer textarea{min-height:240px;background:repeating-linear-gradient(var(--surface) 0 27px,var(--tint) 27px 28px);line-height:28px;padding-top:2px}
 .gb-saved{font-size:.85rem}
-.gb-list textarea{min-height:140px;background:repeating-linear-gradient(var(--surface) 0 27px,var(--tint) 27px 28px);line-height:28px}
 .gb-item h3{margin:0}
 .gb-confirm{background:var(--accent-soft);border-radius:18px;padding:12px 16px;display:flex;flex-direction:column;gap:8px}
 @media (max-width:560px){.gb-drawer{left:calc(12px + env(safe-area-inset-left,0px));right:calc(12px + env(safe-area-inset-right,0px));width:auto}}
@@ -691,15 +763,24 @@ input[type=number]{font:inherit;padding:8px 12px;border-radius:14px;border:none;
 
 <!-- ============ GLÓSUBÓK ============ -->
 <section class="view stack-lg" data-view="glosubok" hidden>
-  <div class="lesson-head read">
-    <p class="eyebrow">Þín glósubók</p>
-    <h1>Glósubókin</h1>
-    <p class="lead2">Hér eru allar glósurnar þínar á einum stað. Þú skrifar þær inni í hverri lotu eða beint hér.</p>
-    <div class="note warn"><b>Mundu:</b> glósurnar geymast bara í þessum vafra á þessu tæki. Afritaðu þær reglulega í skjal eða stílabók, sérstaklega ef þú notar tæki sem aðrir nota líka.</div>
-    <div class="row"><button class="btn primary" type="button" id="gbCopy">Afrita allar glósur</button><button class="btn" type="button" id="gbDownload">Vista sem textaskrá</button><button class="btn" type="button" id="gbClear">Eyða öllum glósum</button><span class="toast" id="gbToast" aria-live="polite"></span></div>
-    <div class="gb-confirm" id="gbConfirm" hidden><p><b>Ertu viss?</b> Allar glósur í þessum vafra hverfa.</p><div class="row"><button class="btn primary" type="button" id="gbYes">Já, eyða</button><button class="btn" type="button" id="gbNo">Hætta við</button></div></div>
+  <div class="gb-wrap">
+    <header class="gb-head">
+      <div><p class="eyebrow">Þín glósubók</p><h1>Glósubókin</h1><p class="muted gb-stats" id="gbStats"></p></div>
+      <div class="gb-set">
+        <button type="button" class="gb-gear" id="gbGear" aria-haspopup="true" aria-expanded="false" aria-controls="gbMenu" aria-label="Stillingar"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3.3h-4l-.4 2.6a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.6 7.6 0 0 0 0 2l-2.2 1.6 2 3.5 2.5-1c.5.4 1.1.8 1.7 1l.4 2.6h4l.4-2.6c.6-.2 1.2-.6 1.7-1l2.5 1 2-3.5zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg></button>
+        <div class="gb-menu" id="gbMenu" role="menu" hidden>
+          <button type="button" role="menuitem" id="gbCopy"><span class="gi">⧉</span>Afrita allar glósur</button>
+          <button type="button" role="menuitem" id="gbDownload"><span class="gi">↓</span>Vista sem textaskrá</button>
+          <hr>
+          <button type="button" role="menuitem" id="gbClear" class="danger"><span class="gi">×</span>Eyða öllum glósum</button>
+          <div class="gb-confirm" id="gbConfirm" hidden><p><b>Ertu viss?</b> Allar glósur í þessum vafra hverfa.</p><div class="row"><button class="btn primary" type="button" id="gbYes">Já, eyða</button><button class="btn" type="button" id="gbNo">Hætta við</button></div></div>
+          <p class="gb-note">Glósurnar geymast bara í þessum vafra. Afritaðu þær reglulega.</p>
+        </div>
+      </div>
+    </header>
+    <div class="gb-paper" id="gbList"></div>
+    <div class="gb-foot"><div class="gb-add-wrap"><button type="button" class="gb-add" id="gbAdd" aria-expanded="false">+ Nýr kafli</button><div class="gb-pick" id="gbPick" hidden></div></div><span class="gb-saved-dot" id="gbToast" aria-live="polite"></span></div>
   </div>
-  <div class="gb-list stack" id="gbList"></div>
 </section>
 <section class="view stack-lg" data-view="skil" hidden>
   <div class="lesson-head read">
@@ -964,8 +1045,10 @@ function renderLesson(n){
   const COL={1:'tone',2:'kick',3:'snare',4:'amb',5:'perc'};
   const num=h=>+(h.match(/^(\d)/)||[0,0])[1];
   const clean=h=>h.replace(/^\d\s*·\s*/,'');
+  const ph=PHASES.find(x=>n>=x.from&&n<=x.to)||PHASES[0];const nx=DATA[n];const nph=nx?PHASES.find(x=>nx.n>=x.from&&nx.n<=x.to):null;
   host.innerHTML=`
-    <header class="lhero">
+    <header class="lhero" style="--c:var(${ph.c})">
+      <div class="lhero-art" aria-hidden="true">${ART[ph.art]()}</div>
       <div class="lhero-num" aria-hidden="true">${n}</div>
       <div class="lhero-txt stack">
         <p class="eyebrow">Lota ${n} af ${DATA.length} · ${PHASE(n)}</p>
@@ -983,9 +1066,11 @@ function renderLesson(n){
         <div class="band-in${wide?'':' read'}"><div class="md" data-sec="${i}">${mdToHtml(s.body)}</div></div></section>`}).join('')}
     <section class="read stack lfoot">
       ${teacher?`<details class="teacher"><summary>${esc(teacher.head)}</summary><div class="md">${mdToHtml(teacher.body)}</div></details>`:''}
+      ${nx?`<a class="next-card" href="#lota-${n+1}" style="--c:var(${nph.c})"><span class="nc-num">${n+1}</span><span class="nc-t"><small>Næsta lota${nph!==ph?` · nýr hluti: ${nph.name}`:''}</small><b>${esc(nx.short)}</b><span>${esc(metaVal(nx,'inngangur'))}</span></span><span class="nc-go" aria-hidden="true">→</span></a>`
+        :`<a class="next-card" href="#forsida" style="--c:var(--accent)"><span class="nc-num">✓</span><span class="nc-t"><small>Síðasta lotan</small><b>Til hamingju, þú kláraðir áfangann!</b><span>Aftur á forsíðuna.</span></span><span class="nc-go" aria-hidden="true">→</span></a>`}
       <div class="row" style="justify-content:space-between">
-        ${n>1?`<a class="btn" href="#lota-${n-1}">← Lota ${n-1}</a>`:'<a class="btn" href="#forsida">← Yfirlit</a>'}
-        ${n<DATA.length?`<a class="btn primary" href="#lota-${n+1}">Lota ${n+1}: ${esc(DATA[n].short)} →</a>`:'<a class="btn primary" href="#forsida">Aftur á yfirlit</a>'}
+        ${n>1?`<a class="linkbtn" href="#lota-${n-1}">← Lota ${n-1}: ${esc(DATA[n-2].short)}</a>`:'<a class="linkbtn" href="#forsida">← Forsíða</a>'}
+        <a class="linkbtn" href="#lotur">Allar lotur</a>
       </div>
     </section>`;
   const ul=host.querySelector('.goalsmd ul');if(ul)ul.classList.add('goals');
@@ -1500,29 +1585,61 @@ function gbRoute(view,lota){
   if(!gbCur){dr.hidden=true;fab.setAttribute('aria-expanded','false')}
   else{$('#gbDTitle').textContent=`Glósur · Lota ${gbCur}`;$('#gbDText').value=store.get(gbKey(gbCur),'');
     const b=$('#lesson [data-gb-open]');if(b)b.addEventListener('click',gbOpen)}
-  if(view==='glosubok')gbRenderList();
+  if(view==='glosubok'){gbOpenSecs=new Set();gbRenderList()}
 }
 function gbOpen(){if(!gbCur)return;$('#gbDrawer').hidden=false;$('#gbFab').setAttribute('aria-expanded','true');$('#gbDText').focus()}
 function gbClose(){$('#gbDrawer').hidden=true;$('#gbFab').setAttribute('aria-expanded','false');$('#gbFab').focus()}
 $('#gbFab').addEventListener('click',()=>$('#gbDrawer').hidden?gbOpen():gbClose());
 $('#gbClose').addEventListener('click',gbClose);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#gbDrawer').hidden)gbClose()});
-$('#gbDText').addEventListener('input',e=>{if(gbCur){store.set(gbKey(gbCur),e.target.value);gbSavedMsg()}});
+$('#gbDText').addEventListener('input',e=>{if(gbCur){store.set(gbKey(gbCur),e.target.value);store.set('gb-ts-'+gbCur,Date.now());gbSavedMsg()}});
 $('#gbDrawer a[href="#glosubok"]').addEventListener('click',()=>{$('#gbDrawer').hidden=true});
-function gbAllText(){return DATA.map(d=>{const t=(store.get(gbKey(d.n),'')||'').trim();return t?`${d.title}\n${'-'.repeat(d.title.length)}\n${t}\n`:''}).filter(Boolean).join('\n')}
-function gbRenderList(){
-  $('#gbList').innerHTML=DATA.map(d=>`<div class="gb-item card stack"><div class="row" style="justify-content:space-between"><h3>Lota ${d.n} · ${esc(d.short)}</h3><a class="btn" href="#lota-${d.n}">Opna lotu</a></div>
-    <label class="sr-only" for="gb-t-${d.n}">Glósur fyrir lotu ${d.n}</label><textarea id="gb-t-${d.n}" data-n="${d.n}" placeholder="Engar glósur enn.">${esc(store.get(gbKey(d.n),''))}</textarea></div>`).join('');
-  $$('#gbList textarea').forEach(t=>t.addEventListener('input',()=>store.set(gbKey(+t.dataset.n),t.value)));
+function gbAllText(){const parts=[];const g0=(store.get(gbKey(0),'')||'').trim();if(g0)parts.push(`Almennar glósur\n---------------\n${g0}\n`);
+  DATA.forEach(d=>{const t=(store.get(gbKey(d.n),'')||'').trim();if(t)parts.push(`${d.title}\n${'-'.repeat(d.title.length)}\n${t}\n`)});return parts.join('\n')}
+let gbOpenSecs=new Set();
+const gbHas=n=>!!(store.get(gbKey(n),'')||'').trim();
+const gbPhase=n=>PHASES.find(x=>n>=x.from&&n<=x.to)||PHASES[0];
+function gbFmt(ts){if(!ts)return'';const d=new Date(ts);return `${d.getDate()}. ${['jan.','feb.','mar.','apr.','maí','jún.','júl.','ágú.','sep.','okt.','nóv.','des.'][d.getMonth()]}`}
+function gbGrow(t){t.style.height='auto';t.style.height=Math.max(t.scrollHeight,t.dataset.min|0)+'px'}
+function gbStats(){const all=[0,...DATA.map(d=>d.n)].map(n=>(store.get(gbKey(n),'')||'').trim()).filter(Boolean);const w=all.join(' ').split(/\s+/).filter(Boolean).length;
+  const secs=DATA.filter(d=>gbHas(d.n)).length;$('#gbStats').textContent=w?`${w} ${w%10===1&&w%100!==11?'orð':'orð'} · ${secs?`${secs} ${secs===1?'kafli':'kaflar'}`:'enginn kafli ennþá'}`:'Autt blað'}
+function gbSaved(){const el=$('#gbToast');el.textContent='Vistað';el.classList.remove('pulse');void el.offsetWidth;el.classList.add('pulse');clearTimeout(gbSaved.t);gbSaved.t=setTimeout(()=>{el.textContent='';el.classList.remove('pulse')},1600)}
+function gbRenderList(focusN){
+  const secs=DATA.filter(d=>gbHas(d.n)||gbOpenSecs.has(d.n));
+  const g0=store.get(gbKey(0),'');
+  const empty=!g0.trim()&&!secs.length;
+  $('#gbList').classList.toggle('blank',empty);
+  $('#gbList').innerHTML=`<section class="gb-sec gb-gen" data-n="0">${secs.length?'<h2 class="gb-h"><span class="gb-dot" style="--c:var(--accent)"></span>Almennt</h2>':''}
+      <label class="sr-only" for="gb-t-0">Almennar glósur</label><textarea id="gb-t-0" data-n="0" data-min="${empty?320:120}" placeholder="${empty?'Autt blað. Byrjaðu að skrifa hvar sem er…':'Almennar glósur…'}">${esc(g0)}</textarea>
+      ${empty?'<p class="gb-hint">Glósur sem þú skrifar inni í lotunum birtast hér sem kaflar. Þú getur líka bætt við kafla hér fyrir neðan.</p>':''}</section>`+
+    secs.map(d=>{const ph=gbPhase(d.n);return `<section class="gb-sec" data-n="${d.n}" style="--c:var(${ph.c})">
+      <h2 class="gb-h"><span class="gb-num">${d.n}</span><span class="gb-ht">${esc(d.short)}<small>${ph.name}${store.get('gb-ts-'+d.n,0)?' · '+gbFmt(store.get('gb-ts-'+d.n,0)):''}</small></span><a class="gb-open" href="#lota-${d.n}">Opna lotu →</a></h2>
+      <label class="sr-only" for="gb-t-${d.n}">Glósur fyrir lotu ${d.n}</label><textarea id="gb-t-${d.n}" data-n="${d.n}" data-min="84" placeholder="Skrifaðu glósur fyrir lotu ${d.n}…">${esc(store.get(gbKey(d.n),''))}</textarea></section>`}).join('');
+  $$('#gbList textarea').forEach(t=>{gbGrow(t);t.addEventListener('input',()=>{const n=+t.dataset.n;store.set(gbKey(n),t.value);if(n)store.set('gb-ts-'+n,Date.now());gbGrow(t);gbSaved();gbStats();
+      if(n===0&&$('#gbList').classList.contains('blank')&&t.value.trim()){$('#gbList').classList.remove('blank');const h=t.parentElement.querySelector('.gb-hint');if(h)h.remove()}})});
+  if(focusN!=null){const t=$(`#gb-t-${focusN}`);if(t){t.closest('.gb-sec').classList.add('new');t.focus();t.closest('.gb-sec').scrollIntoView({block:'center',behavior:REDUCED()?'auto':'smooth'})}}
+  gbStats();gbPickRender();
 }
-$('#gbCopy').addEventListener('click',()=>{const t=gbAllText()||'(engar glósur)';copyText(t,$('#gbToast'),$('#gbList'))});
-$('#gbDownload').addEventListener('click',()=>{const t=gbAllText();if(!t){$('#gbToast').textContent='Engar glósur til að vista.';return}
-  try{const url=URL.createObjectURL(new Blob([t],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='glosubok-tonlist-i-vafranum.txt';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);
-    $('#gbToast').textContent='Ef ekkert gerðist, notaðu „Afrita allar glósur“.'}catch(e){$('#gbToast').textContent='Notaðu „Afrita allar glósur“.'}
-  setTimeout(()=>$('#gbToast').textContent='',4000)});
+function gbPickRender(){const free=DATA.filter(d=>!gbHas(d.n)&&!gbOpenSecs.has(d.n));
+  $('#gbAdd').hidden=!free.length;
+  $('#gbPick').innerHTML='<p class="muted">Kafli fyrir hvaða lotu?</p><div class="gb-chips">'+free.map(d=>`<button type="button" data-n="${d.n}" style="--c:var(${gbPhase(d.n).c})"><i>${d.n}</i>${esc(d.short)}</button>`).join('')+'</div>'}
+$('#gbAdd').addEventListener('click',()=>{const p=$('#gbPick');p.hidden=!p.hidden;$('#gbAdd').setAttribute('aria-expanded',String(!p.hidden))});
+$('#gbPick').addEventListener('click',e=>{const b=e.target.closest('button[data-n]');if(!b)return;const n=+b.dataset.n;gbOpenSecs.add(n);$('#gbPick').hidden=true;$('#gbAdd').setAttribute('aria-expanded','false');gbRenderList(n)});
+/* stillingar */
+const gbMenu=$('#gbMenu'),gbGear=$('#gbGear');
+const gbMenuSet=o=>{gbMenu.hidden=!o;gbGear.setAttribute('aria-expanded',String(o));gbGear.classList.toggle('on',o);if(!o)$('#gbConfirm').hidden=true};
+gbGear.addEventListener('click',e=>{e.stopPropagation();gbMenuSet(gbMenu.hidden)});
+document.addEventListener('click',e=>{if(!gbMenu.hidden&&!e.target.closest('.gb-set'))gbMenuSet(false)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!gbMenu.hidden){gbMenuSet(false);gbGear.focus()}});
+const gbFlash=m=>{const el=$('#gbToast');el.textContent=m;el.classList.remove('pulse');void el.offsetWidth;el.classList.add('pulse');clearTimeout(gbSaved.t);gbSaved.t=setTimeout(()=>{el.textContent=''},3500)};
+$('#gbCopy').addEventListener('click',async()=>{const t=gbAllText();if(!t){gbFlash('Engar glósur til að afrita');gbMenuSet(false);return}
+  try{await navigator.clipboard.writeText(t);gbFlash('Allar glósur afritaðar')}catch(e){gbFlash('Afritun tókst ekki. Veldu textann og ýttu á Ctrl+C.')}gbMenuSet(false)});
+$('#gbDownload').addEventListener('click',()=>{const t=gbAllText();if(!t){gbFlash('Engar glósur til að vista');gbMenuSet(false);return}
+  try{const url=URL.createObjectURL(new Blob([t],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='glosubok-tonlistarsmidjan.txt';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);gbFlash('Textaskráin er vistuð')}
+  catch(e){gbFlash('Notaðu „Afrita allar glósur“ í staðinn')}gbMenuSet(false)});
 $('#gbClear').addEventListener('click',()=>{$('#gbConfirm').hidden=false});
-$('#gbNo').addEventListener('click',()=>{$('#gbConfirm').hidden=true});
-$('#gbYes').addEventListener('click',()=>{DATA.forEach(d=>store.set(gbKey(d.n),''));$('#gbConfirm').hidden=true;gbRenderList();$('#gbToast').textContent='Glósunum var eytt.';setTimeout(()=>$('#gbToast').textContent='',3000)});
+$('#gbNo').addEventListener('click',e=>{e.stopPropagation();$('#gbConfirm').hidden=true});
+$('#gbYes').addEventListener('click',()=>{[0,...DATA.map(d=>d.n)].forEach(n=>{store.set(gbKey(n),'');store.set('gb-ts-'+n,0)});gbOpenSecs.clear();gbMenuSet(false);gbRenderList();gbFlash('Glósunum var eytt')});
 
 /* ---------- hreyfing: kaflar birtast, framvinda, síðuskipti, fögnun ---------- */
 const REDUCED=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
