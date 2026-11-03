@@ -311,6 +311,7 @@ details.dm-save{background:var(--surface);border-radius:20px;padding:14px 18px;b
 details.dm-save summary{cursor:pointer;font-weight:600}
 #taktvel-tool{margin-block:6px}
 
+@media (max-width:560px){nav.links{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;max-width:100%}nav.links::-webkit-scrollbar{display:none}nav.links a{padding:7px 11px;font-size:.88rem;white-space:nowrap}}
 /* ---- skilakerfi ---- */
 .gb-fab[hidden],.gb-drawer[hidden]{display:none!important}
 .kodibox{background:var(--surface);border-radius:16px;padding:14px 16px;box-shadow:0 2px 0 var(--line);display:flex;flex-direction:column;gap:8px}
@@ -365,10 +366,10 @@ details.dm-save summary{cursor:pointer;font-weight:600}
 /* ---- kaflaskipt lota ---- */
 #lesson{gap:28px}
 .lhero{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;align-items:center;background:linear-gradient(135deg,var(--accent-soft),color-mix(in srgb,var(--tone) 22%,var(--surface)));border-radius:36px;padding:32px 34px;overflow:hidden}
-.lhero-num{font-family:var(--f-display);font-weight:700;font-size:clamp(4.5rem,12vw,8.5rem);line-height:.85;color:transparent;-webkit-text-stroke:3px var(--accent);letter-spacing:-.04em}
+.lhero-num{width:clamp(96px,14vw,140px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font-family:var(--f-display);font-weight:700;font-size:clamp(3rem,7vw,4.6rem);line-height:1;box-shadow:0 5px 0 var(--deep)}
 .lhero h1{margin:0}
 .lhero .meta span{background:var(--surface);border:none;box-shadow:0 2px 0 var(--line)}
-@media (max-width:640px){.lhero{grid-template-columns:1fr;padding:24px 20px;gap:6px}.lhero-num{font-size:4.2rem}}
+@media (max-width:640px){.lhero{grid-template-columns:1fr;padding:24px 20px;gap:12px}.lhero-num{width:72px;font-size:2.4rem;box-shadow:0 4px 0 var(--deep)}}
 .stoc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 66px);z-index:4;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:10px 0;margin:-10px 0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
 .stoc::-webkit-scrollbar{display:none}
 .stoc button{white-space:nowrap;display:inline-flex;align-items:center;gap:6px;transition:background .2s,color .2s}
@@ -660,7 +661,7 @@ window.addEventListener('hashchange',route);
 (function(){let last='';let html='';
   DATA.forEach(d=>{const ph=PHASE(d.n);if(ph!==last){html+=`<div class="phase">${ph}</div>`;last=ph}
     const forrit=metaVal(d,'hvaða forrit');const inn=metaVal(d,'inngangur');
-    html+=`<a class="unit unit-link" href="#lota-${d.n}"><span class="num">${String(d.n).padStart(2,'0')}</span><div><h3>${esc(d.short)}</h3><p>${esc(inn)}</p><p class="tools-line">${esc(forrit)}</p></div><span class="pill go">Opna</span></a>`});
+    html+=`<a class="unit unit-link" href="#lota-${d.n}"><span class="num">${d.n}</span><div><h3>${esc(d.short)}</h3><p>${esc(inn)}</p><p class="tools-line">${esc(forrit)}</p></div><span class="pill go">Opna</span></a>`});
   $('#units').innerHTML=html;
 })();
 
@@ -821,7 +822,7 @@ function renderLesson(n){
   const clean=h=>h.replace(/^\d\s*·\s*/,'');
   host.innerHTML=`
     <header class="lhero">
-      <div class="lhero-num" aria-hidden="true">${String(n).padStart(2,'0')}</div>
+      <div class="lhero-num" aria-hidden="true">${n}</div>
       <div class="lhero-txt stack">
         <p class="eyebrow">Lota ${n} af ${DATA.length} · ${PHASE(n)}</p>
         <h1>${esc(d.short)}</h1>
